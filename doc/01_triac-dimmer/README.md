@@ -43,7 +43,7 @@ I promise you that you will be in violation of all three if you don't respect ho
 ## System-Level Design
 A full oven controller consists of several parts:
 
-![System Flow Chart](images/system-flow.png)
+![System Flow Chart](images/system-flow.jpg)
 
 _Toaster oven system flowchart_
 
@@ -61,7 +61,7 @@ _Not as flashy as the SSR but our TRIAC does some super cool stuff_
 
 The whole idea of this oven controller is to use the TRIAC to implement something known as AC  phase control. If you wait for the zero-crossing of the AC waveform and turn the TRIAC at and adjustable about of time later, you are left with an output waveform that retains the same frequency and magnitude of the original waveform for the time that the TRIAC is active. This limits the amount of power to the end device, effectively dimming it. Other methods of dimming exist like [wave packet control](https://de.wikipedia.org/wiki/Schwingungspaketsteuerung) (a sort of synchronous BANG-BANG paradigm; sorry no EN WikiPedia) but they are beyond the scope of this project.
 
-![AC Phase Control in action](images/ac-phase-example.png)
+![AC Phase Control in action](images/ac-phase-example.jpg)
 
 _Example of AC phase control from [Andy's Workshop](andybrown.me.uk/wk/2015/07/12/awreflow2/)_
 
@@ -91,22 +91,22 @@ When controlling or measuring high voltage circuits with low voltage devices, it
 
 Robert's [TRIAC controller](www.allaboutcircuits.com/projects/ambient-light-monitor-using-a-triac-to-adjust-lamp-brightness/) and [zero-crossing detector](www.allaboutcircuits.com/projects/ambient-light-monitor-zero-cross-detection/) use the transformer in a wall wart to step down the mains to a safer 12V before interacting with it. This application uses opto-isolators to separate the high and low voltages which has the advantage of being far lighter and more compact than a bulky transformer. They're slow to react to fast signal changes compared to some of the other methods but at sub-kilohertz speeds like our application, it doesn't really matter.
 
-![Zero-crossing schematic](images/zero-cross-schem.png)
+![Zero-crossing schematic](images/zero-cross-schem.jpg)
 
 This circuit was [lovingly borrowed from here](http://www.dextrel.net/diyzerocrosser.htm). The author does an excellent job explaining the circuit in detail but a quick rundown goes like this: the mains waveform is first filtered and rectified. It's voltage is divided which then charges the 10uF cap. When the divided voltage drops below the voltage on the capacitor, the comparator transistor turns on, activating the opto-isolator. The output has an [open collector](https://en.wikipedia.org/wiki/Open_collector) which means you can operate it at any VCC your microcontroller supports. My perfboard circuit looks like this:
 
-![Perfboard zero-crossing detector](images/zero-cross-board.png)
+![Perfboard zero-crossing detector](images/zero-cross-board.jpg)
 
 I tested this circuit in isolation from the rest of the board with a modified power cable and a surge protector. The zero-crossing detector waveform superimposed on an AC sinusoid should look something like this (I used a step-down transformer to get the shot. For the love of God don't hook your mains to your scope!):
 
-![Zero-crossing Detected!](images/zero-cross-scope.png)
+![Zero-crossing Detected!](images/zero-cross-scope.jpg)
 
 ## TRIAC Driver and Isolated Driver Circuit
 Next up is the TRIAC and the isolated driver circuit. I mentioned earlier [Andy Brown's tutorial](http://andybrown.me.uk/wk/2015/07/12/awreflow2/). I adapted his TRIAC protection and driver circuit to work on 120VAC here in the States and followed his thermal considerations for heatsink selection. The TRIAC we're using is the [BTA312](http://www.nxp.com/products/thyristors/3_quadrant_triacs_high_commutation/BTA312-600B.html). We use another opto-isolator to drive the TRIAC called the [MOC310M](https://www.fairchildsemi.com/products/optoelectronics/triac-driver-optocouplers/random-phase-triac-driver/MOC3010M.html) which requires between 30 and 60mA to turn on. Most microcontrollers aren't comfortable sourcing this kind of current so we use a general purpose NPN transistor to provide it.
 
 The schematic looks like this:
 
-![TRIAC Driver Schematic](images/triac-schem.png)
+![TRIAC Driver Schematic](images/triac-schem.jpg)
 
 VR1 is a varistor. It serves as over-voltage protection in case there's a spike in the AC line. C3 is a 275VAC film cap for emission suppression. That one could be considered optional. The MOC310 driver board circuit looks like this:
 
