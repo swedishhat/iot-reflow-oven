@@ -22,6 +22,8 @@ Solder reflow ovens are nothing new, nor is making one for yourself out of a sta
 ## A Few Notes on Safety
 ![Danger! Danger! High Voltage!](images/high-voltage-warning.jpg)
 
+_That lightning monster is not messing around..._
+
 A rock climbing instructor jokingly told me once that there are three rules to heed when it comes to safety. In order of priority, they are:
 
 1. Look good.
@@ -64,43 +66,63 @@ The whole idea of this oven controller is to use the TRIAC to implement somethin
 _Example of AC phase control from [Andy's Workshop](andybrown.me.uk/wk/2015/07/12/awreflow2/)_
 
 ## Plugs, Terminals, and Enclosure
-![10A IEC plug with integrated fuse holder and switch](images/iec-plug-fuse-sw.jpg)
-![Single Tamper-Resistant Outlet](images/outlet.jpg)
-![6-position Screw Terminal Block](images/screw-terminal.jpg)
+Safe and cheap is the name of the game here so the first order of business in making this was to select a reasonable enclosure. I got an inexpensive plastic bin with a lid and wrote a nice and scary warning label for myself and anyone around. Holes for the the plugs can be cut or drilled in the side but care needs to be taken to keep the material from cracking.
+
 ![Inexpensive plastic enclosure with lid and warning](images/enclosure.jpg)
 
-## Isolated Zero-Cross Detector
-When controlling or measuring high voltage circuits with low voltage devices, it's best practice to galvanically isolate the two sides, either capacitively, inductively, or optically. Robert's TRIAC controller and zero-crossing detector use the transformer in a wall wart to step down the mains to a safer 12V – this is a common application of inductive isolation. This application uses optoisolators to separate the high and low voltages which have the advantage of being far lighter and more compact than bulky transformers. Optoisolators are slow compared to transformers and capacitor isolators but at sub-kilohertz speeds, it doesn't really matter. As a side note for completeness, capacitive isolation techniques are found often in high speed digital communication applications (ADCs, serial transceivers, etc).
+I opted for a plug and socket interface to the dimmer. On the AC mains side, I used a 10A IEC plug with an integrated fuse holder (the fuses I had to source myself) and a power switch, much like this one:
 
-My schematic looks like this:
+![10A IEC plug with integrated fuse holder and switch](images/iec-plug-fuse-sw.jpg)
+
+_10A IEC plug with integrated fuse holder and switch_
+
+It takes care of over-current protection and allows me to turn the whole thing off without having to unplug the cables. On the toaster side, I just browsed through my local hardware store and came upon this:
+
+![Single Tamper-Resistant Outlet](images/outlet.jpg)
+
+_Single tamper-resistant outlet_
+
+It's a single tamper-resistant outlet that screws into the enclosure. I didn't want to solder the high voltage wires directly to my board so I got a six-position screw terminal block. The positions are for MAINS_L, MAINS_N, OVEN_L, OVEN_N, and two ground wires. I also used one of these terminals for the four microcontroller wires leading outside of the box. A bit overkill but it's what I had on hand.
+
+![Six-position Screw Terminal Block](images/screw-terminal.jpg)
+
+## Isolated Zero-Crossing Detector
+When controlling or measuring high voltage circuits with low voltage devices, it's always a good idea to employ some kind of galvanic isolation between the two sides; this can be accomplished either [inductively](https://en.wikipedia.org/wiki/Isolation_transformer), [optically](https://en.wikipedia.org/wiki/Opto-isolator), or  [capacitively](http://www.ti.com/lsds/ti/isolation/digital-isolators-overview.page). There are a few other isolation methods but these are the big ones.
+
+Robert's [TRIAC controller](www.allaboutcircuits.com/projects/ambient-light-monitor-using-a-triac-to-adjust-lamp-brightness/) and [zero-crossing detector](www.allaboutcircuits.com/projects/ambient-light-monitor-zero-cross-detection/) use the transformer in a wall wart to step down the mains to a safer 12V before interacting with it. This application uses opto-isolators to separate the high and low voltages which has the advantage of being far lighter and more compact than a bulky transformer. They're slow to react to fast signal changes compared to some of the other methods but at sub-kilohertz speeds like our application, it doesn't really matter.
+
 ![Zero-crossing schematic](images/zero-cross-schem.png)
 
-and my perfboard circuit looks like this:
+This circuit was [lovingly borrowed from here](http://www.dextrel.net/diyzerocrosser.htm). The author does an excellent job explaining the circuit in detail but a quick rundown goes like this: the mains waveform is first filtered and rectified. It's voltage is divided which then charges the 10uF cap. When the divided voltage drops below the voltage on the capacitor, the comparator transistor turns on, activating the opto-isolator. The output has an [open collector](https://en.wikipedia.org/wiki/Open_collector) which means you can operate it at any VCC your microcontroller supports. My perfboard circuit looks like this:
+
 ![Perfboard zero-crossing detector](images/zero-cross-board.png)
 
-What's Going On
-This circuit was lovingly borrowed from http://www.dextrel.net/diyzerocrosser.htm. The author does a fine job explaining the circuit in detail but a quick rundown goes like this (the part numbers I'm referring to are my schematic, not the author's): the two mains terminals are fed into the circuit on the far left. The waveform is then low-pass filtered and rectified before charging C2. The transistor, set up to act like a comparator, is off for the majority of the cycle except when the mains voltage divided by (R1 + R2) / R3 is lower than the voltage across C2. Current then conducts through the LED in the optoisolator , turning on the internal transistor. This pulls the output pin to ground. What's nice about this circuit is that it has an open collector on the output so it 'll leave the output pin floating when no zero cross is detected. Pull it up with a resistor to whatever voltage your microcontroller uses and Bob's your uncle!
+I tested this circuit in isolation from the rest of the board with a modified power cable and a surge protector. The zero-crossing detector waveform superimposed on an AC sinusoid should look something like this (I used a step-down transformer to get the shot. For the love of God don't hook your mains to your scope!):
 
-I tested this circuit in isolation from the rest of the board with a modified power cable and a surge protector. The zero-crossing detector waveform superimposed on an AC sinusoid should look something like this:
-[PIC]
+![Zero-crossing Detected!](images/zero-cross-scope.png)
 
 ## TRIAC Driver and Isolated Driver Circuit
-Now that we have a signal leaving the AC dimmer box, it's time to send our own in. I mentioned earlier Andy Brown's tutorial. I adapted his TRIAC protection and driver circuit to work on 120VAC here in the States, and followed his thermal considerations for heatsink selection. The TRIAC we're using is the BTA312. We use another optoisolator to drive the TRIAC called the MOC310M which requires between 30 and 60mA to turn on. Most microcontrollers aren't comfortable sourcing this kind of current so we use a general purpose NPN transistor to provide it.
+Next up is the TRIAC and the isolated driver circuit. I mentioned earlier [Andy Brown's tutorial](http://andybrown.me.uk/wk/2015/07/12/awreflow2/). I adapted his TRIAC protection and driver circuit to work on 120VAC here in the States and followed his thermal considerations for heatsink selection. The TRIAC we're using is the [BTA312](http://www.nxp.com/products/thyristors/3_quadrant_triacs_high_commutation/BTA312-600B.html). We use another opto-isolator to drive the TRIAC called the [MOC310M](https://www.fairchildsemi.com/products/optoelectronics/triac-driver-optocouplers/random-phase-triac-driver/MOC3010M.html) which requires between 30 and 60mA to turn on. Most microcontrollers aren't comfortable sourcing this kind of current so we use a general purpose NPN transistor to provide it.
 
 The schematic looks like this:
-[PIC]
 
-and the driver circuit looks like this:
-[PIC]
+![TRIAC Driver Schematic](images/triac-schem.png)
 
-The filter cap, the over-voltage varistor, the heatsink, and the screw terminals all live on a main board separate from the driver so that I could probe and test the low voltage components outside of the main board. That main board looks like this
-[pic]
+VR1 is a varistor. It serves as over-voltage protection in case there's a spike in the AC line. C3 is a 275VAC film cap for emission suppression. That one could be considered optional. The MOC310 driver board circuit looks like this:
 
-Putting everything together, you get this
-[pic]
+![TRIAC Driver Board](images/triac-board.jpg)
 
-Connecting the stuff together, and putting 3.3V on the triac active line a light should turn on or whatever
+The heatsink, TRIAC, varistor, filter cap, and screw terminals all live on a main board separate from the driver. Once everything is attached to the board through headers, it should look something like this:
 
+![Main board annotated](images/board-annotated.jpg)
 
+I used the mounting holes at the corners of the main board to attach it to the enclosure. Once everything is put together you get this:
+
+![Ready to roll!](images/board-enclosure.jpg)
+
+Now you should be ready to roll! Connecting the wires appropriately (), connect up VCC and GND to a bread board power supply, and flip the power switch. If you apply 3.3V to the TRIAC_ACTIVE line, you should get 100% power on the other end.
+
+[VIDEO]
 
 ## Next Steps
+Okay, I admit it. Turning on a light bulb with a 3.3V switch isn't that impressive. In fact, it's pretty much just a BANG-BANG controller at that point. What we need next is a controller that can measure the zero-cross signal, dim the line accordingly, and read input from a temperature sensor. That will all be covered in the next installment. What's that you ask? Will I use an Arduino? __Absolutely not!__ It may look like that on the outside but we're going to be playing fast and loose with bare-metal C on the Atmega328P. Until next time, happy hacking.
