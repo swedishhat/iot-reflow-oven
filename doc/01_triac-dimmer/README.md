@@ -3,7 +3,7 @@
 #### By [Patrick Lloyd](http://www.allaboutcircuits.com/author/patrick-lloyd)
 
 ## Summary
-The first part of several on how to put together your own toaster oven controller with a handful of inexpensive, through-hole parts. The emphasis is on safety, low price, and minimal modification of the toaster oven. All project files and documentation can be found on [my repository on GitHub](https://github.com/swedishhat/iot-reflow-oven/). Feel free to contribute.
+The first part of several on how to put together your own toaster oven controller with a handful of inexpensive, through-hole parts. The emphasis is on safety, low price, and minimal modification of the toaster oven.
 
 ## Technical Concepts
 * High-voltage circuits
