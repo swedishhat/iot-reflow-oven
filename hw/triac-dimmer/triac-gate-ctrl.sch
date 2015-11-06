@@ -1,5 +1,4 @@
 EESchema Schematic File Version 2
-LIBS:kicad-triac-uc-rescue
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -29,54 +28,6 @@ LIBS:opto
 LIBS:atmel
 LIBS:contrib
 LIBS:valves
-LIBS:74xgxx
-LIBS:ac-dc
-LIBS:actel
-LIBS:Altera
-LIBS:analog_devices
-LIBS:brooktre
-LIBS:cmos_ieee
-LIBS:dc-dc
-LIBS:diode
-LIBS:elec-unifil
-LIBS:ESD_Protection
-LIBS:ftdi
-LIBS:gennum
-LIBS:graphic
-LIBS:hc11
-LIBS:ir
-LIBS:Lattice
-LIBS:logo
-LIBS:maxim
-LIBS:microchip_dspic33dsc
-LIBS:microchip_pic10mcu
-LIBS:microchip_pic12mcu
-LIBS:microchip_pic16mcu
-LIBS:microchip_pic18mcu
-LIBS:microchip_pic32mcu
-LIBS:motor_drivers
-LIBS:msp430
-LIBS:nordicsemi
-LIBS:nxp_armmcu
-LIBS:onsemi
-LIBS:Oscillators
-LIBS:powerint
-LIBS:Power_Management
-LIBS:pspice
-LIBS:references
-LIBS:relays
-LIBS:rfcom
-LIBS:sensors
-LIBS:silabs
-LIBS:stm8
-LIBS:stm32
-LIBS:supertex
-LIBS:switches
-LIBS:transf
-LIBS:ttl_ieee
-LIBS:video
-LIBS:Xicor
-LIBS:Zilog
 LIBS:kicad-triac-uc-cache
 EELAYER 25 0
 EELAYER END
@@ -226,13 +177,7 @@ Wire Wire Line
 Wire Wire Line
 	7200 3050 7200 2950
 Wire Wire Line
-	6600 2950 7200 2950
-Wire Wire Line
-	7200 2950 7950 2950
-Wire Wire Line
-	7950 2950 8300 2950
-Wire Wire Line
-	8300 2950 8350 2950
+	6600 2950 8350 2950
 Wire Wire Line
 	7200 3700 7200 4100
 Wire Wire Line
@@ -246,9 +191,7 @@ Wire Wire Line
 Wire Wire Line
 	8300 3500 8300 3800
 Wire Wire Line
-	7200 4100 7950 4100
-Wire Wire Line
-	7950 4100 8350 4100
+	7200 4100 8350 4100
 Wire Wire Line
 	8300 3800 8350 3800
 Connection ~ 7950 4100

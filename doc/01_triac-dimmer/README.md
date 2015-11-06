@@ -1,5 +1,6 @@
 ![Good ol' Nick Tesla, Just Chillin'](images/tesla-thumb.jpg)
 # Controlling AC Mains with a Microcontroller for Fun and Profit
+#### By [Patrick Lloyd](www.allaboutcircuits.com/author/patrick-lloyd)
 
 ## Summary
 The first part of several on how to put together your own toaster oven controller with a handful of inexpensive, through-hole parts. The emphasis is on safety, low price, and minimal modification of the toaster oven.
@@ -19,6 +20,35 @@ _Oooh shiny... But at what cost!?_
 
 Solder reflow ovens are nothing new, nor is making one for yourself out of a standard toaster like this one. The issue is that commercial options are generally very expensive (the one above may cost upwards of $2000 USD) and many home-built options often require the dismantling and modding the toaster which can be error prone and require special tools (my own [Black & Decker Toasr-R-Oven](http://www.amazon.com/gp/product/B00FN3MV88/ref=pd_lpo_sbs_dp_ss_1?pf_rd_p=1944687742&pf_rd_s=lpo-top-stripe-1&pf_rd_t=201&pf_rd_i=B00164O3WU&pf_rd_m=ATVPDKIKX0DER&pf_rd_r=1JG8VGMESTPB12C5T56Z) has security Torx screws in it...). Sparkfun [published a tutorial](https://www.sparkfun.com/commerce/tutorial_info.php?tutorials_id=60) back in 2006, Andy Brown [created a beautiful design](http://andybrown.me.uk/2015/07/12/awreflow2/) on his blog, and even AAC author [Robert Keim](www.allaboutcircuits.com/author/robert-keim) has some tutorials on the basic concepts of oven controlling such as [zero-cross detection](http://www.allaboutcircuits.com/projects/ambient-light-monitor-zero-cross-detection/) and [controlling a TRIAC](http://www.allaboutcircuits.com/projects/ambient-light-monitor-using-a-triac-to-adjust-lamp-brightness/). This tutorial aims to flesh out some of the concepts and provide a different hardware and software approach to this application. It's another “recipe in the cookbook” if you will.
 
+## What You Need
+| Qty | Part | Price (USD) |
+|:---:|:----:|:-----:|
+| 1 | [Plastic enclosure](http://www.homedepot.com/p/Sterilite-6-Qt-Storage-Box-in-White-and-Clear-Plastic-16428960/203120094) | $1.24 |
+| 1 | [IEC 10A plug with fuse holder and switch](http://www.ebay.com/itm/3-Pin-IEC320-C14-Inlet-Module-Plug-Fuse-Switch-Male-Power-Socket-10A-250V-TS-/231390116882?hash=item35dfecfc12:g:iDsAAOSw0vBUZPWk) | $3.99 |
+| 2 | [10A glass fuses](https://www.digikey.com/product-detail/en/5ST%2010-R/507-1256-ND/1009028) | $0.44 |
+| 1 | [15-Amp Tamper Resistant Single Outlet](http://www.homedepot.com/p/Leviton-15-Amp-Tamper-Resistant-Single-Outlet-White-R52-T5015-0WS/202066674) |$2.99 |
+| 2 | [Six-position screw terminal block](https://www.digikey.com/product-detail/en/20020316-G061B01LF/609-3931-ND/2261342) | $3.50 |
+| 1 | [47R 1/4 watt resistor](https://www.digikey.com/product-detail/en/CFR-25JB-52-47R/47QBK-ND/2219) | $0.10 |
+| 1 | [180R 1/4 watt resistor](https://www.digikey.com/product-detail/en/CFR-50JB-52-180R/180H-ND/580) | $0.10 |
+| 2 | [1K 1/4 watt resistor](https://www.digikey.com/product-detail/en/CFR-25JB-52-1K/1.0KQBK-ND/96) | $0.20 |
+| 1 | [4.7K 1/4 watt resistor](https://www.digikey.com/product-detail/en/CF14JT4K70/CF14JT4K70CT-ND/1830366) | $0.10 |
+| 1 | [22K 1/4 watt resistor](https://www.digikey.com/product-detail/en/CF14JT22K0/CF14JT22K0CT-ND/1830383) | $0.10 |
+| 2 | [220K 1/4 watt resistor](https://www.digikey.com/product-detail/en/CF14JT220K/CF14JT220KCT-ND/1830407) | $0.20 |
+| 1 | [100nF 275V X-class film capacitor](https://www.digikey.com/product-detail/en/ECQ-U2A104ML/P10730-ND/281393) | $0.65 |
+| 1 | [1nF 1kV ceramic capacitor](https://www.digikey.com/product-detail/en/S102K29Y5PN63J5R/1251PH-ND/2356788) | $0.25 |
+| 1 | [10uF 35V aluminum capacitor](https://www.digikey.com/product-detail/en/ESK106M035AC3AA/399-6598-ND/3083013) | $0.15 |
+| 5 | [1N4148 (or equivalent) diode](https://www.digikey.com/product-detail/en/1N4007-TP/1N4007-TPMSCT-ND/773694) | $0.55 |
+| 2 | General purpose NPN BJT ([2N3904](https://www.digikey.com/product-detail/en/2N3904BU/2N3904FS-ND/1413) or [2N5551](https://www.digikey.com/product-detail/en/2N5551BU/2N5551BU-ND/973957)) | $0.40 |
+| 1 | [4N35 opto-isolator](https://www.digikey.com/product-detail/en/4N35/160-1304-5-ND/385766) | $0.48 |
+| 1 | [MOC310 opto-isolator](https://www.digikey.com/product-detail/en/MOC3010M/MOC3010M-ND/284880) | $0.72 |
+| 1 | [BTA312-600B TRIAC](https://www.digikey.com/product-detail/en/BTA312-600B%2FDG,127/568-9780-5-ND/2779860) | $0.99 |
+| 1 | [TO-220 heatsink](https://www.digikey.com/product-detail/en/FA-T220-38E/FA-T220-38E-ND/2416492) | $1.60 |
+| 1 | [T0-220 mounting hardware](https://www.digikey.com/product-detail/en/4724/36-4724-ND/109792) | $2.07 |
+| 1 | [185V varistor](https://www.digikey.com/product-detail/en/MOV-20D201K/MOV-20D201K-ND/2799097) | $0.47 |
+| 1 | Misc mounting hardware | ~ |
+| 1 | Misc hookup wire | ~ |
+|**TOTAL**| | ~$22.00 |
+
 ## A Few Notes on Safety
 ![Danger! Danger! High Voltage!](images/high-voltage-warning.jpg)
 
@@ -27,9 +57,7 @@ _That lightning monster is not messing around..._
 A rock climbing instructor jokingly told me once that there are three rules to heed when it comes to safety. In order of priority, they are:
 
 1. Look good.
-
 2. Don't die.
-
 3. If you have to die, look good doing it.
 
 I promise you that you will be in violation of all three if you don't respect how dangerous mains voltages can be. Hundreds of volts are nothing to sneeze at and can cause serious damage if you aren't careful. There are a few things to keep in mind when dealing with high voltages:
