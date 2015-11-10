@@ -1,0 +1,331 @@
+GAS LISTING /tmp/ccQEY3n3.s 			page 1
+
+
+   1               		.file	"main.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.stabs	"/home/jimbo/Desktop/iot-reflow-oven/sw/atmega328p/src/",100,0,2,.Ltext0
+   8               		.stabs	"main.c",100,0,2,.Ltext0
+   9               		.text
+  10               	.Ltext0:
+  11               		.stabs	"gcc2_compiled.",60,0,0,0
+  12               		.stabs	"int:t(0,1)=r(0,1);-32768;32767;",128,0,0,0
+  13               		.stabs	"char:t(0,2)=@s8;r(0,2);0;255;",128,0,0,0
+  14               		.stabs	"long int:t(0,3)=@s32;r(0,3);020000000000;017777777777;",128,0,0,0
+  15               		.stabs	"unsigned int:t(0,4)=r(0,4);0;0177777;",128,0,0,0
+  16               		.stabs	"long unsigned int:t(0,5)=@s32;r(0,5);0;037777777777;",128,0,0,0
+  17               		.stabs	"long long int:t(0,6)=@s64;r(0,6);01000000000000000000000;0777777777777777777777;",128,0,0,
+  18               		.stabs	"long long unsigned int:t(0,7)=@s64;r(0,7);0;01777777777777777777777;",128,0,0,0
+  19               		.stabs	"short int:t(0,8)=r(0,8);-32768;32767;",128,0,0,0
+  20               		.stabs	"short unsigned int:t(0,9)=r(0,9);0;0177777;",128,0,0,0
+  21               		.stabs	"signed char:t(0,10)=@s8;r(0,10);-128;127;",128,0,0,0
+  22               		.stabs	"unsigned char:t(0,11)=@s8;r(0,11);0;255;",128,0,0,0
+  23               		.stabs	"float:t(0,12)=r(0,1);4;0;",128,0,0,0
+  24               		.stabs	"double:t(0,13)=r(0,1);4;0;",128,0,0,0
+  25               		.stabs	"long double:t(0,14)=r(0,1);4;0;",128,0,0,0
+  26               		.stabs	"short _Fract:t(0,15)=r(0,1);1;0;",128,0,0,0
+  27               		.stabs	"_Fract:t(0,16)=r(0,1);2;0;",128,0,0,0
+  28               		.stabs	"long _Fract:t(0,17)=r(0,1);4;0;",128,0,0,0
+  29               		.stabs	"long long _Fract:t(0,18)=r(0,1);8;0;",128,0,0,0
+  30               		.stabs	"unsigned short _Fract:t(0,19)=r(0,1);1;0;",128,0,0,0
+  31               		.stabs	"unsigned _Fract:t(0,20)=r(0,1);2;0;",128,0,0,0
+  32               		.stabs	"unsigned long _Fract:t(0,21)=r(0,1);4;0;",128,0,0,0
+  33               		.stabs	"unsigned long long _Fract:t(0,22)=r(0,1);8;0;",128,0,0,0
+  34               		.stabs	"_Sat short _Fract:t(0,23)=r(0,1);1;0;",128,0,0,0
+  35               		.stabs	"_Sat _Fract:t(0,24)=r(0,1);2;0;",128,0,0,0
+  36               		.stabs	"_Sat long _Fract:t(0,25)=r(0,1);4;0;",128,0,0,0
+  37               		.stabs	"_Sat long long _Fract:t(0,26)=r(0,1);8;0;",128,0,0,0
+  38               		.stabs	"_Sat unsigned short _Fract:t(0,27)=r(0,1);1;0;",128,0,0,0
+  39               		.stabs	"_Sat unsigned _Fract:t(0,28)=r(0,1);2;0;",128,0,0,0
+  40               		.stabs	"_Sat unsigned long _Fract:t(0,29)=r(0,1);4;0;",128,0,0,0
+  41               		.stabs	"_Sat unsigned long long _Fract:t(0,30)=r(0,1);8;0;",128,0,0,0
+  42               		.stabs	"short _Accum:t(0,31)=r(0,1);2;0;",128,0,0,0
+  43               		.stabs	"_Accum:t(0,32)=r(0,1);4;0;",128,0,0,0
+  44               		.stabs	"long _Accum:t(0,33)=r(0,1);8;0;",128,0,0,0
+  45               		.stabs	"long long _Accum:t(0,34)=r(0,1);8;0;",128,0,0,0
+  46               		.stabs	"unsigned short _Accum:t(0,35)=r(0,1);2;0;",128,0,0,0
+  47               		.stabs	"unsigned _Accum:t(0,36)=r(0,1);4;0;",128,0,0,0
+  48               		.stabs	"unsigned long _Accum:t(0,37)=r(0,1);8;0;",128,0,0,0
+  49               		.stabs	"unsigned long long _Accum:t(0,38)=r(0,1);8;0;",128,0,0,0
+  50               		.stabs	"_Sat short _Accum:t(0,39)=r(0,1);2;0;",128,0,0,0
+  51               		.stabs	"_Sat _Accum:t(0,40)=r(0,1);4;0;",128,0,0,0
+  52               		.stabs	"_Sat long _Accum:t(0,41)=r(0,1);8;0;",128,0,0,0
+  53               		.stabs	"_Sat long long _Accum:t(0,42)=r(0,1);8;0;",128,0,0,0
+  54               		.stabs	"_Sat unsigned short _Accum:t(0,43)=r(0,1);2;0;",128,0,0,0
+  55               		.stabs	"_Sat unsigned _Accum:t(0,44)=r(0,1);4;0;",128,0,0,0
+  56               		.stabs	"_Sat unsigned long _Accum:t(0,45)=r(0,1);8;0;",128,0,0,0
+  57               		.stabs	"_Sat unsigned long long _Accum:t(0,46)=r(0,1);8;0;",128,0,0,0
+GAS LISTING /tmp/ccQEY3n3.s 			page 2
+
+
+  58               		.stabs	"void:t(0,47)=(0,47)",128,0,0,0
+  59               		.stabs	"/usr/lib/gcc/avr/4.8.1/include/stdint.h",130,0,0,0
+  60               		.stabs	"/usr/lib/avr/include/stdint.h",130,0,0,0
+  61               		.stabs	"int8_t:t(2,1)=(0,10)",128,0,121,0
+  62               		.stabs	"uint8_t:t(2,2)=(0,11)",128,0,122,0
+  63               		.stabs	"int16_t:t(2,3)=(0,1)",128,0,123,0
+  64               		.stabs	"uint16_t:t(2,4)=(0,4)",128,0,124,0
+  65               		.stabs	"int32_t:t(2,5)=(0,3)",128,0,125,0
+  66               		.stabs	"uint32_t:t(2,6)=(0,5)",128,0,126,0
+  67               		.stabs	"int64_t:t(2,7)=(0,6)",128,0,128,0
+  68               		.stabs	"uint64_t:t(2,8)=(0,7)",128,0,129,0
+  69               		.stabs	"intptr_t:t(2,9)=(2,3)",128,0,142,0
+  70               		.stabs	"uintptr_t:t(2,10)=(2,4)",128,0,147,0
+  71               		.stabs	"int_least8_t:t(2,11)=(2,1)",128,0,159,0
+  72               		.stabs	"uint_least8_t:t(2,12)=(2,2)",128,0,164,0
+  73               		.stabs	"int_least16_t:t(2,13)=(2,3)",128,0,169,0
+  74               		.stabs	"uint_least16_t:t(2,14)=(2,4)",128,0,174,0
+  75               		.stabs	"int_least32_t:t(2,15)=(2,5)",128,0,179,0
+  76               		.stabs	"uint_least32_t:t(2,16)=(2,6)",128,0,184,0
+  77               		.stabs	"int_least64_t:t(2,17)=(2,7)",128,0,192,0
+  78               		.stabs	"uint_least64_t:t(2,18)=(2,8)",128,0,199,0
+  79               		.stabs	"int_fast8_t:t(2,19)=(2,1)",128,0,213,0
+  80               		.stabs	"uint_fast8_t:t(2,20)=(2,2)",128,0,218,0
+  81               		.stabs	"int_fast16_t:t(2,21)=(2,3)",128,0,223,0
+  82               		.stabs	"uint_fast16_t:t(2,22)=(2,4)",128,0,228,0
+  83               		.stabs	"int_fast32_t:t(2,23)=(2,5)",128,0,233,0
+  84               		.stabs	"uint_fast32_t:t(2,24)=(2,6)",128,0,238,0
+  85               		.stabs	"int_fast64_t:t(2,25)=(2,7)",128,0,246,0
+  86               		.stabs	"uint_fast64_t:t(2,26)=(2,8)",128,0,253,0
+  87               		.stabs	"intmax_t:t(2,27)=(2,7)",128,0,273,0
+  88               		.stabs	"uintmax_t:t(2,28)=(2,8)",128,0,278,0
+  89               		.stabn	162,0,0,0
+  90               		.stabn	162,0,0,0
+  91               		.stabs	"/usr/lib/avr/include/avr/io.h",130,0,0,0
+  92               		.stabs	"/usr/lib/avr/include/avr/sfr_defs.h",130,0,0,0
+  93               		.stabs	"/usr/lib/avr/include/inttypes.h",130,0,0,0
+  94               		.stabs	"int_farptr_t:t(5,1)=(2,5)",128,0,77,0
+  95               		.stabs	"uint_farptr_t:t(5,2)=(2,6)",128,0,81,0
+  96               		.stabn	162,0,0,0
+  97               		.stabn	162,0,0,0
+  98               		.stabs	"/usr/lib/avr/include/avr/fuse.h",130,0,0,0
+  99               		.stabs	"__fuse_t:t(6,1)=(6,2)=s3low:(0,11),0,8;high:(0,11),8,8;extended:(0,11),16,8;;",128,0,244,0
+ 100               		.stabn	162,0,0,0
+ 101               		.stabn	162,0,0,0
+ 102               		.stabs	"main:F(0,1)",36,0,8,main
+ 103               	.global	main
+ 104               		.type	main, @function
+ 105               	main:
+ 106               		.stabd	46,0,0
+   1:main.c        **** #include <stdint.h>
+   2:main.c        **** #include <avr/io.h>
+   3:main.c        **** #include <avr/interrupt.h>
+   4:main.c        **** #include "oven_control.h"
+   5:main.c        **** #include "ms_timer.h"
+   6:main.c        **** //#include "macros.h"
+   7:main.c        **** 
+   8:main.c        **** int main(void)
+GAS LISTING /tmp/ccQEY3n3.s 			page 3
+
+
+   9:main.c        **** {
+ 107               		.stabn	68,0,9,.LM0-.LFBB1
+ 108               	.LM0:
+ 109               	.LFBB1:
+ 110 0000 CF93      		push r28
+ 111 0002 DF93      		push r29
+ 112 0004 00D0      		rcall .
+ 113 0006 00D0      		rcall .
+ 114 0008 1F92      		push __zero_reg__
+ 115 000a CDB7      		in r28,__SP_L__
+ 116 000c DEB7      		in r29,__SP_H__
+ 117               	/* prologue: function */
+ 118               	/* frame size = 5 */
+ 119               	/* stack size = 7 */
+ 120               	.L__stack_usage = 7
+  10:main.c        ****     // Globally disable interrupts
+  11:main.c        ****     cli();
+ 121               		.stabn	68,0,11,.LM1-.LFBB1
+ 122               	.LM1:
+ 123               	/* #APP */
+ 124               	 ;  11 "main.c" 1
+ 125 000e F894      		cli
+ 126               	 ;  0 "" 2
+  12:main.c        **** 
+  13:main.c        ****     // Clear interrupt flag by reading the interrupt register
+  14:main.c        ****     uint8_t dummy __attribute__((unused)) = SPSR;
+ 127               		.stabn	68,0,14,.LM2-.LFBB1
+ 128               	.LM2:
+ 129               	/* #NOAPP */
+ 130 0010 8DE4      		ldi r24,lo8(77)
+ 131 0012 90E0      		ldi r25,0
+ 132 0014 FC01      		movw r30,r24
+ 133 0016 8081      		ld r24,Z
+ 134 0018 8D83      		std Y+5,r24
+  15:main.c        ****     dummy = SPDR;
+ 135               		.stabn	68,0,15,.LM3-.LFBB1
+ 136               	.LM3:
+ 137 001a 8EE4      		ldi r24,lo8(78)
+ 138 001c 90E0      		ldi r25,0
+ 139 001e FC01      		movw r30,r24
+ 140 0020 8081      		ld r24,Z
+ 141 0022 8D83      		std Y+5,r24
+  16:main.c        ****     
+  17:main.c        ****     // Configure external interrupt registers (Eventually move into macros.h)
+  18:main.c        ****     EICRA |= (1 << ISC01);      // Falling edge of INT0 generates an IRQ
+ 142               		.stabn	68,0,18,.LM4-.LFBB1
+ 143               	.LM4:
+ 144 0024 89E6      		ldi r24,lo8(105)
+ 145 0026 90E0      		ldi r25,0
+ 146 0028 29E6      		ldi r18,lo8(105)
+ 147 002a 30E0      		ldi r19,0
+ 148 002c F901      		movw r30,r18
+ 149 002e 2081      		ld r18,Z
+ 150 0030 2260      		ori r18,lo8(2)
+ 151 0032 FC01      		movw r30,r24
+ 152 0034 2083      		st Z,r18
+  19:main.c        ****     EIMSK |= (1 << INT0);       // Enable INT0 external interrupt mask
+GAS LISTING /tmp/ccQEY3n3.s 			page 4
+
+
+ 153               		.stabn	68,0,19,.LM5-.LFBB1
+ 154               	.LM5:
+ 155 0036 8DE3      		ldi r24,lo8(61)
+ 156 0038 90E0      		ldi r25,0
+ 157 003a 2DE3      		ldi r18,lo8(61)
+ 158 003c 30E0      		ldi r19,0
+ 159 003e F901      		movw r30,r18
+ 160 0040 2081      		ld r18,Z
+ 161 0042 2160      		ori r18,lo8(1)
+ 162 0044 FC01      		movw r30,r24
+ 163 0046 2083      		st Z,r18
+  20:main.c        ****     
+  21:main.c        ****     // Setup I/O direction & values, start timers
+  22:main.c        ****     oven_start();
+ 164               		.stabn	68,0,22,.LM6-.LFBB1
+ 165               	.LM6:
+ 166 0048 0E94 0000 		call oven_start
+  23:main.c        ****     msTimer_start();
+ 167               		.stabn	68,0,23,.LM7-.LFBB1
+ 168               	.LM7:
+ 169 004c 0E94 0000 		call msTimer_start
+  24:main.c        **** 
+  25:main.c        ****     // Ready to roll. Turn on global interrupt flag
+  26:main.c        ****     sei();
+ 170               		.stabn	68,0,26,.LM8-.LFBB1
+ 171               	.LM8:
+ 172               	/* #APP */
+ 173               	 ;  26 "main.c" 1
+ 174 0050 7894      		sei
+ 175               	 ;  0 "" 2
+ 176               	/* #NOAPP */
+ 177               	.L5:
+ 178               	.LBB2:
+  27:main.c        **** 
+  28:main.c        ****     // Main program loop
+  29:main.c        ****     for(;;)
+  30:main.c        ****     {                
+  31:main.c        ****         // "Fade" duty cycle with single FOR loop
+  32:main.c        ****         int i = 0;
+ 179               		.stabn	68,0,32,.LM9-.LFBB1
+ 180               	.LM9:
+ 181 0052 1A82      		std Y+2,__zero_reg__
+ 182 0054 1982      		std Y+1,__zero_reg__
+  33:main.c        ****         int dir = 1;
+ 183               		.stabn	68,0,33,.LM10-.LFBB1
+ 184               	.LM10:
+ 185 0056 81E0      		ldi r24,lo8(1)
+ 186 0058 90E0      		ldi r25,0
+ 187 005a 9C83      		std Y+4,r25
+ 188 005c 8B83      		std Y+3,r24
+  34:main.c        ****         for (i = 0; i > -1; i = i + dir)
+ 189               		.stabn	68,0,34,.LM11-.LFBB1
+ 190               	.LM11:
+ 191 005e 1A82      		std Y+2,__zero_reg__
+ 192 0060 1982      		std Y+1,__zero_reg__
+ 193 0062 00C0      		rjmp .L2
+ 194               	.L4:
+GAS LISTING /tmp/ccQEY3n3.s 			page 5
+
+
+  35:main.c        ****         {
+  36:main.c        ****             oven_setDutyCycle(i);
+ 195               		.stabn	68,0,36,.LM12-.LFBB1
+ 196               	.LM12:
+ 197 0064 8981      		ldd r24,Y+1
+ 198 0066 0E94 0000 		call oven_setDutyCycle
+  37:main.c        ****             if (i == 100) dir = -1;             // switch direction at peak
+ 199               		.stabn	68,0,37,.LM13-.LFBB1
+ 200               	.LM13:
+ 201 006a 8981      		ldd r24,Y+1
+ 202 006c 9A81      		ldd r25,Y+2
+ 203 006e 8436      		cpi r24,100
+ 204 0070 9105      		cpc r25,__zero_reg__
+ 205 0072 01F4      		brne .L3
+ 206               		.stabn	68,0,37,.LM14-.LFBB1
+ 207               	.LM14:
+ 208 0074 8FEF      		ldi r24,lo8(-1)
+ 209 0076 9FEF      		ldi r25,lo8(-1)
+ 210 0078 9C83      		std Y+4,r25
+ 211 007a 8B83      		std Y+3,r24
+ 212               	.L3:
+  38:main.c        ****             msTimer_delay(10);
+ 213               		.stabn	68,0,38,.LM15-.LFBB1
+ 214               	.LM15:
+ 215 007c 6AE0      		ldi r22,lo8(10)
+ 216 007e 70E0      		ldi r23,0
+ 217 0080 80E0      		ldi r24,0
+ 218 0082 90E0      		ldi r25,0
+ 219 0084 0E94 0000 		call msTimer_delay
+  34:main.c        ****         {
+ 220               		.stabn	68,0,34,.LM16-.LFBB1
+ 221               	.LM16:
+ 222 0088 2981      		ldd r18,Y+1
+ 223 008a 3A81      		ldd r19,Y+2
+ 224 008c 8B81      		ldd r24,Y+3
+ 225 008e 9C81      		ldd r25,Y+4
+ 226 0090 820F      		add r24,r18
+ 227 0092 931F      		adc r25,r19
+ 228 0094 9A83      		std Y+2,r25
+ 229 0096 8983      		std Y+1,r24
+ 230               	.L2:
+  34:main.c        ****         {
+ 231               		.stabn	68,0,34,.LM17-.LFBB1
+ 232               	.LM17:
+ 233 0098 8981      		ldd r24,Y+1
+ 234 009a 9A81      		ldd r25,Y+2
+ 235 009c 9923      		tst r25
+ 236 009e 04F4      		brge .L4
+ 237               	.LBE2:
+  39:main.c        ****         } 
+  40:main.c        ****     }
+ 238               		.stabn	68,0,40,.LM18-.LFBB1
+ 239               	.LM18:
+ 240 00a0 00C0      		rjmp .L5
+ 241               		.size	main, .-main
+ 242               		.stabs	"dummy:(2,2)",128,0,14,5
+ 243               		.stabn	192,0,0,.LFBB1-.LFBB1
+GAS LISTING /tmp/ccQEY3n3.s 			page 6
+
+
+ 244               		.stabs	"i:(0,1)",128,0,32,1
+ 245               		.stabs	"dir:(0,1)",128,0,33,3
+ 246               		.stabn	192,0,0,.LBB2-.LFBB1
+ 247               		.stabn	224,0,0,.LBE2-.LFBB1
+ 248               		.stabn	224,0,0,.Lscope1-.LFBB1
+ 249               	.Lscope1:
+ 250               		.stabs	"",36,0,0,.Lscope1-.LFBB1
+ 251               		.stabd	78,0,0
+ 252               		.stabs	"",100,0,0,.Letext0
+ 253               	.Letext0:
+ 254               		.ident	"GCC: (GNU) 4.8.1"
+GAS LISTING /tmp/ccQEY3n3.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 main.c
+     /tmp/ccQEY3n3.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccQEY3n3.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccQEY3n3.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccQEY3n3.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccQEY3n3.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccQEY3n3.s:105    .text:0000000000000000 main
+
+UNDEFINED SYMBOLS
+oven_start
+msTimer_start
+oven_setDutyCycle
+msTimer_delay

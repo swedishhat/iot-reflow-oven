@@ -1,0 +1,504 @@
+GAS LISTING /tmp/cch9Ns7Z.s 			page 1
+
+
+   1               		.file	"ms_timer.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.stabs	"/home/jimbo/Desktop/iot-reflow-oven/sw/atmega328p/src/",100,0,2,.Ltext0
+   8               		.stabs	"ms_timer.c",100,0,2,.Ltext0
+   9               		.text
+  10               	.Ltext0:
+  11               		.stabs	"gcc2_compiled.",60,0,0,0
+  12               		.stabs	"int:t(0,1)=r(0,1);-32768;32767;",128,0,0,0
+  13               		.stabs	"char:t(0,2)=@s8;r(0,2);0;255;",128,0,0,0
+  14               		.stabs	"long int:t(0,3)=@s32;r(0,3);020000000000;017777777777;",128,0,0,0
+  15               		.stabs	"unsigned int:t(0,4)=r(0,4);0;0177777;",128,0,0,0
+  16               		.stabs	"long unsigned int:t(0,5)=@s32;r(0,5);0;037777777777;",128,0,0,0
+  17               		.stabs	"long long int:t(0,6)=@s64;r(0,6);01000000000000000000000;0777777777777777777777;",128,0,0,
+  18               		.stabs	"long long unsigned int:t(0,7)=@s64;r(0,7);0;01777777777777777777777;",128,0,0,0
+  19               		.stabs	"short int:t(0,8)=r(0,8);-32768;32767;",128,0,0,0
+  20               		.stabs	"short unsigned int:t(0,9)=r(0,9);0;0177777;",128,0,0,0
+  21               		.stabs	"signed char:t(0,10)=@s8;r(0,10);-128;127;",128,0,0,0
+  22               		.stabs	"unsigned char:t(0,11)=@s8;r(0,11);0;255;",128,0,0,0
+  23               		.stabs	"float:t(0,12)=r(0,1);4;0;",128,0,0,0
+  24               		.stabs	"double:t(0,13)=r(0,1);4;0;",128,0,0,0
+  25               		.stabs	"long double:t(0,14)=r(0,1);4;0;",128,0,0,0
+  26               		.stabs	"short _Fract:t(0,15)=r(0,1);1;0;",128,0,0,0
+  27               		.stabs	"_Fract:t(0,16)=r(0,1);2;0;",128,0,0,0
+  28               		.stabs	"long _Fract:t(0,17)=r(0,1);4;0;",128,0,0,0
+  29               		.stabs	"long long _Fract:t(0,18)=r(0,1);8;0;",128,0,0,0
+  30               		.stabs	"unsigned short _Fract:t(0,19)=r(0,1);1;0;",128,0,0,0
+  31               		.stabs	"unsigned _Fract:t(0,20)=r(0,1);2;0;",128,0,0,0
+  32               		.stabs	"unsigned long _Fract:t(0,21)=r(0,1);4;0;",128,0,0,0
+  33               		.stabs	"unsigned long long _Fract:t(0,22)=r(0,1);8;0;",128,0,0,0
+  34               		.stabs	"_Sat short _Fract:t(0,23)=r(0,1);1;0;",128,0,0,0
+  35               		.stabs	"_Sat _Fract:t(0,24)=r(0,1);2;0;",128,0,0,0
+  36               		.stabs	"_Sat long _Fract:t(0,25)=r(0,1);4;0;",128,0,0,0
+  37               		.stabs	"_Sat long long _Fract:t(0,26)=r(0,1);8;0;",128,0,0,0
+  38               		.stabs	"_Sat unsigned short _Fract:t(0,27)=r(0,1);1;0;",128,0,0,0
+  39               		.stabs	"_Sat unsigned _Fract:t(0,28)=r(0,1);2;0;",128,0,0,0
+  40               		.stabs	"_Sat unsigned long _Fract:t(0,29)=r(0,1);4;0;",128,0,0,0
+  41               		.stabs	"_Sat unsigned long long _Fract:t(0,30)=r(0,1);8;0;",128,0,0,0
+  42               		.stabs	"short _Accum:t(0,31)=r(0,1);2;0;",128,0,0,0
+  43               		.stabs	"_Accum:t(0,32)=r(0,1);4;0;",128,0,0,0
+  44               		.stabs	"long _Accum:t(0,33)=r(0,1);8;0;",128,0,0,0
+  45               		.stabs	"long long _Accum:t(0,34)=r(0,1);8;0;",128,0,0,0
+  46               		.stabs	"unsigned short _Accum:t(0,35)=r(0,1);2;0;",128,0,0,0
+  47               		.stabs	"unsigned _Accum:t(0,36)=r(0,1);4;0;",128,0,0,0
+  48               		.stabs	"unsigned long _Accum:t(0,37)=r(0,1);8;0;",128,0,0,0
+  49               		.stabs	"unsigned long long _Accum:t(0,38)=r(0,1);8;0;",128,0,0,0
+  50               		.stabs	"_Sat short _Accum:t(0,39)=r(0,1);2;0;",128,0,0,0
+  51               		.stabs	"_Sat _Accum:t(0,40)=r(0,1);4;0;",128,0,0,0
+  52               		.stabs	"_Sat long _Accum:t(0,41)=r(0,1);8;0;",128,0,0,0
+  53               		.stabs	"_Sat long long _Accum:t(0,42)=r(0,1);8;0;",128,0,0,0
+  54               		.stabs	"_Sat unsigned short _Accum:t(0,43)=r(0,1);2;0;",128,0,0,0
+  55               		.stabs	"_Sat unsigned _Accum:t(0,44)=r(0,1);4;0;",128,0,0,0
+  56               		.stabs	"_Sat unsigned long _Accum:t(0,45)=r(0,1);8;0;",128,0,0,0
+  57               		.stabs	"_Sat unsigned long long _Accum:t(0,46)=r(0,1);8;0;",128,0,0,0
+GAS LISTING /tmp/cch9Ns7Z.s 			page 2
+
+
+  58               		.stabs	"void:t(0,47)=(0,47)",128,0,0,0
+  59               		.stabs	"/usr/lib/gcc/avr/4.8.1/include/stdint.h",130,0,0,0
+  60               		.stabs	"/usr/lib/avr/include/stdint.h",130,0,0,0
+  61               		.stabs	"int8_t:t(2,1)=(0,10)",128,0,121,0
+  62               		.stabs	"uint8_t:t(2,2)=(0,11)",128,0,122,0
+  63               		.stabs	"int16_t:t(2,3)=(0,1)",128,0,123,0
+  64               		.stabs	"uint16_t:t(2,4)=(0,4)",128,0,124,0
+  65               		.stabs	"int32_t:t(2,5)=(0,3)",128,0,125,0
+  66               		.stabs	"uint32_t:t(2,6)=(0,5)",128,0,126,0
+  67               		.stabs	"int64_t:t(2,7)=(0,6)",128,0,128,0
+  68               		.stabs	"uint64_t:t(2,8)=(0,7)",128,0,129,0
+  69               		.stabs	"intptr_t:t(2,9)=(2,3)",128,0,142,0
+  70               		.stabs	"uintptr_t:t(2,10)=(2,4)",128,0,147,0
+  71               		.stabs	"int_least8_t:t(2,11)=(2,1)",128,0,159,0
+  72               		.stabs	"uint_least8_t:t(2,12)=(2,2)",128,0,164,0
+  73               		.stabs	"int_least16_t:t(2,13)=(2,3)",128,0,169,0
+  74               		.stabs	"uint_least16_t:t(2,14)=(2,4)",128,0,174,0
+  75               		.stabs	"int_least32_t:t(2,15)=(2,5)",128,0,179,0
+  76               		.stabs	"uint_least32_t:t(2,16)=(2,6)",128,0,184,0
+  77               		.stabs	"int_least64_t:t(2,17)=(2,7)",128,0,192,0
+  78               		.stabs	"uint_least64_t:t(2,18)=(2,8)",128,0,199,0
+  79               		.stabs	"int_fast8_t:t(2,19)=(2,1)",128,0,213,0
+  80               		.stabs	"uint_fast8_t:t(2,20)=(2,2)",128,0,218,0
+  81               		.stabs	"int_fast16_t:t(2,21)=(2,3)",128,0,223,0
+  82               		.stabs	"uint_fast16_t:t(2,22)=(2,4)",128,0,228,0
+  83               		.stabs	"int_fast32_t:t(2,23)=(2,5)",128,0,233,0
+  84               		.stabs	"uint_fast32_t:t(2,24)=(2,6)",128,0,238,0
+  85               		.stabs	"int_fast64_t:t(2,25)=(2,7)",128,0,246,0
+  86               		.stabs	"uint_fast64_t:t(2,26)=(2,8)",128,0,253,0
+  87               		.stabs	"intmax_t:t(2,27)=(2,7)",128,0,273,0
+  88               		.stabs	"uintmax_t:t(2,28)=(2,8)",128,0,278,0
+  89               		.stabn	162,0,0,0
+  90               		.stabn	162,0,0,0
+  91               		.stabs	"/usr/lib/avr/include/avr/interrupt.h",130,0,0,0
+  92               		.stabs	"/usr/lib/avr/include/avr/io.h",130,0,0,0
+  93               		.stabs	"/usr/lib/avr/include/avr/sfr_defs.h",130,0,0,0
+  94               		.stabs	"/usr/lib/avr/include/inttypes.h",130,0,0,0
+  95               		.stabs	"int_farptr_t:t(6,1)=(2,5)",128,0,77,0
+  96               		.stabs	"uint_farptr_t:t(6,2)=(2,6)",128,0,81,0
+  97               		.stabn	162,0,0,0
+  98               		.stabn	162,0,0,0
+  99               		.stabs	"/usr/lib/avr/include/avr/fuse.h",130,0,0,0
+ 100               		.stabs	"__fuse_t:t(7,1)=(7,2)=s3low:(0,11),0,8;high:(0,11),8,8;extended:(0,11),16,8;;",128,0,244,0
+ 101               		.stabn	162,0,0,0
+ 102               		.stabn	162,0,0,0
+ 103               		.stabn	162,0,0,0
+ 104               	.global	_ms_counter
+ 105               		.section .bss
+ 106               		.type	_ms_counter, @object
+ 107               		.size	_ms_counter, 4
+ 108               	_ms_counter:
+ 109 0000 0000 0000 		.zero	4
+ 110               	.global	_ms_subCounter
+ 111               		.type	_ms_subCounter, @object
+ 112               		.size	_ms_subCounter, 1
+ 113               	_ms_subCounter:
+ 114 0004 00        		.zero	1
+GAS LISTING /tmp/cch9Ns7Z.s 			page 3
+
+
+ 115               		.text
+ 116               		.stabs	"__vector_16:F(0,47)",36,0,11,__vector_16
+ 117               	.global	__vector_16
+ 118               		.type	__vector_16, @function
+ 119               	__vector_16:
+ 120               		.stabd	46,0,0
+   1:ms_timer.c    **** // Millisecond timer. Short and sweet. Like you!
+   2:ms_timer.c    **** #include <stdint.h>
+   3:ms_timer.c    **** #include <avr/interrupt.h>
+   4:ms_timer.c    **** #include "ms_timer.h"
+   5:ms_timer.c    **** 
+   6:ms_timer.c    **** /*** Millisecond Timer Variables ***/
+   7:ms_timer.c    **** volatile uint32_t   _ms_counter = 0;
+   8:ms_timer.c    **** volatile uint8_t    _ms_subCounter = 0;
+   9:ms_timer.c    **** 
+  10:ms_timer.c    **** /*** Timer 0 Overflow ISR ***/
+  11:ms_timer.c    **** ISR(TIMER0_OVF_vect)
+  12:ms_timer.c    **** {
+ 121               		.stabn	68,0,12,.LM0-.LFBB1
+ 122               	.LM0:
+ 123               	.LFBB1:
+ 124 0000 1F92      		push r1
+ 125 0002 0F92      		push r0
+ 126 0004 0090 5F00 		lds r0,95
+ 127 0008 0F92      		push r0
+ 128 000a 1124      		clr __zero_reg__
+ 129 000c 2F93      		push r18
+ 130 000e 3F93      		push r19
+ 131 0010 8F93      		push r24
+ 132 0012 9F93      		push r25
+ 133 0014 AF93      		push r26
+ 134 0016 BF93      		push r27
+ 135 0018 EF93      		push r30
+ 136 001a FF93      		push r31
+ 137 001c CF93      		push r28
+ 138 001e DF93      		push r29
+ 139 0020 CDB7      		in r28,__SP_L__
+ 140 0022 DEB7      		in r29,__SP_H__
+ 141               	/* prologue: Signal */
+ 142               	/* frame size = 0 */
+ 143               	/* stack size = 13 */
+ 144               	.L__stack_usage = 13
+  13:ms_timer.c    ****     _ms_subCounter++;
+ 145               		.stabn	68,0,13,.LM1-.LFBB1
+ 146               	.LM1:
+ 147 0024 8091 0000 		lds r24,_ms_subCounter
+ 148 0028 8F5F      		subi r24,lo8(-(1))
+ 149 002a 8093 0000 		sts _ms_subCounter,r24
+  14:ms_timer.c    ****     if((_ms_subCounter & 0x3) == 0) _ms_counter++;
+ 150               		.stabn	68,0,14,.LM2-.LFBB1
+ 151               	.LM2:
+ 152 002e 8091 0000 		lds r24,_ms_subCounter
+ 153 0032 882F      		mov r24,r24
+ 154 0034 90E0      		ldi r25,0
+ 155 0036 8370      		andi r24,3
+ 156 0038 9927      		clr r25
+ 157 003a 0097      		sbiw r24,0
+GAS LISTING /tmp/cch9Ns7Z.s 			page 4
+
+
+ 158 003c 01F4      		brne .L2
+ 159               		.stabn	68,0,14,.LM3-.LFBB1
+ 160               	.LM3:
+ 161 003e 8091 0000 		lds r24,_ms_counter
+ 162 0042 9091 0000 		lds r25,_ms_counter+1
+ 163 0046 A091 0000 		lds r26,_ms_counter+2
+ 164 004a B091 0000 		lds r27,_ms_counter+3
+ 165 004e 0196      		adiw r24,1
+ 166 0050 A11D      		adc r26,__zero_reg__
+ 167 0052 B11D      		adc r27,__zero_reg__
+ 168 0054 8093 0000 		sts _ms_counter,r24
+ 169 0058 9093 0000 		sts _ms_counter+1,r25
+ 170 005c A093 0000 		sts _ms_counter+2,r26
+ 171 0060 B093 0000 		sts _ms_counter+3,r27
+ 172               	.L2:
+  15:ms_timer.c    ****     TCNT0 += 6;
+ 173               		.stabn	68,0,15,.LM4-.LFBB1
+ 174               	.LM4:
+ 175 0064 86E4      		ldi r24,lo8(70)
+ 176 0066 90E0      		ldi r25,0
+ 177 0068 26E4      		ldi r18,lo8(70)
+ 178 006a 30E0      		ldi r19,0
+ 179 006c F901      		movw r30,r18
+ 180 006e 2081      		ld r18,Z
+ 181 0070 2A5F      		subi r18,lo8(-(6))
+ 182 0072 FC01      		movw r30,r24
+ 183 0074 2083      		st Z,r18
+ 184               	/* epilogue start */
+  16:ms_timer.c    **** }
+ 185               		.stabn	68,0,16,.LM5-.LFBB1
+ 186               	.LM5:
+ 187 0076 DF91      		pop r29
+ 188 0078 CF91      		pop r28
+ 189 007a FF91      		pop r31
+ 190 007c EF91      		pop r30
+ 191 007e BF91      		pop r27
+ 192 0080 AF91      		pop r26
+ 193 0082 9F91      		pop r25
+ 194 0084 8F91      		pop r24
+ 195 0086 3F91      		pop r19
+ 196 0088 2F91      		pop r18
+ 197 008a 0F90      		pop r0
+ 198 008c 0092 5F00 		sts 95,r0
+ 199 0090 0F90      		pop r0
+ 200 0092 1F90      		pop r1
+ 201 0094 1895      		reti
+ 202               		.size	__vector_16, .-__vector_16
+ 203               	.Lscope1:
+ 204               		.stabs	"",36,0,0,.Lscope1-.LFBB1
+ 205               		.stabd	78,0,0
+ 206               		.stabs	"msTimer_millis:F(2,6)",36,0,19,msTimer_millis
+ 207               	.global	msTimer_millis
+ 208               		.type	msTimer_millis, @function
+ 209               	msTimer_millis:
+ 210               		.stabd	46,0,0
+  17:ms_timer.c    **** 
+  18:ms_timer.c    **** /*** Millisecond Counter Function ***/
+GAS LISTING /tmp/cch9Ns7Z.s 			page 5
+
+
+  19:ms_timer.c    **** uint32_t msTimer_millis(void)
+  20:ms_timer.c    **** {
+ 211               		.stabn	68,0,20,.LM6-.LFBB2
+ 212               	.LM6:
+ 213               	.LFBB2:
+ 214 0096 CF93      		push r28
+ 215 0098 DF93      		push r29
+ 216 009a 00D0      		rcall .
+ 217 009c 00D0      		rcall .
+ 218 009e CDB7      		in r28,__SP_L__
+ 219 00a0 DEB7      		in r29,__SP_H__
+ 220               	/* prologue: function */
+ 221               	/* frame size = 4 */
+ 222               	/* stack size = 6 */
+ 223               	.L__stack_usage = 6
+  21:ms_timer.c    ****     uint32_t ms;
+  22:ms_timer.c    **** 
+  23:ms_timer.c    ****     // NOTE: an 8-bit MCU cannot atomically read/write a 32-bit value so we 
+  24:ms_timer.c    ****     // must disable interrupts while retrieving the value to avoid getting a
+  25:ms_timer.c    ****     // half-written value if an interrupt gets in while we're reading it
+  26:ms_timer.c    ****     cli();
+ 224               		.stabn	68,0,26,.LM7-.LFBB2
+ 225               	.LM7:
+ 226               	/* #APP */
+ 227               	 ;  26 "ms_timer.c" 1
+ 228 00a2 F894      		cli
+ 229               	 ;  0 "" 2
+  27:ms_timer.c    ****     ms=_ms_counter;
+ 230               		.stabn	68,0,27,.LM8-.LFBB2
+ 231               	.LM8:
+ 232               	/* #NOAPP */
+ 233 00a4 8091 0000 		lds r24,_ms_counter
+ 234 00a8 9091 0000 		lds r25,_ms_counter+1
+ 235 00ac A091 0000 		lds r26,_ms_counter+2
+ 236 00b0 B091 0000 		lds r27,_ms_counter+3
+ 237 00b4 8983      		std Y+1,r24
+ 238 00b6 9A83      		std Y+2,r25
+ 239 00b8 AB83      		std Y+3,r26
+ 240 00ba BC83      		std Y+4,r27
+  28:ms_timer.c    ****     sei();
+ 241               		.stabn	68,0,28,.LM9-.LFBB2
+ 242               	.LM9:
+ 243               	/* #APP */
+ 244               	 ;  28 "ms_timer.c" 1
+ 245 00bc 7894      		sei
+ 246               	 ;  0 "" 2
+  29:ms_timer.c    **** 
+  30:ms_timer.c    ****     return ms;
+ 247               		.stabn	68,0,30,.LM10-.LFBB2
+ 248               	.LM10:
+ 249               	/* #NOAPP */
+ 250 00be 8981      		ldd r24,Y+1
+ 251 00c0 9A81      		ldd r25,Y+2
+ 252 00c2 AB81      		ldd r26,Y+3
+ 253 00c4 BC81      		ldd r27,Y+4
+  31:ms_timer.c    **** }
+ 254               		.stabn	68,0,31,.LM11-.LFBB2
+GAS LISTING /tmp/cch9Ns7Z.s 			page 6
+
+
+ 255               	.LM11:
+ 256 00c6 BC01      		movw r22,r24
+ 257 00c8 CD01      		movw r24,r26
+ 258               	/* epilogue start */
+ 259 00ca 0F90      		pop __tmp_reg__
+ 260 00cc 0F90      		pop __tmp_reg__
+ 261 00ce 0F90      		pop __tmp_reg__
+ 262 00d0 0F90      		pop __tmp_reg__
+ 263 00d2 DF91      		pop r29
+ 264 00d4 CF91      		pop r28
+ 265 00d6 0895      		ret
+ 266               		.size	msTimer_millis, .-msTimer_millis
+ 267               		.stabs	"ms:(2,6)",128,0,21,1
+ 268               		.stabn	192,0,0,.LFBB2-.LFBB2
+ 269               		.stabn	224,0,0,.Lscope2-.LFBB2
+ 270               	.Lscope2:
+ 271               		.stabs	"",36,0,0,.Lscope2-.LFBB2
+ 272               		.stabd	78,0,0
+ 273               		.stabs	"msTimer_delay:F(0,47)",36,0,34,msTimer_delay
+ 274               		.stabs	"waitfor:p(2,6)",160,0,34,5
+ 275               	.global	msTimer_delay
+ 276               		.type	msTimer_delay, @function
+ 277               	msTimer_delay:
+ 278               		.stabd	46,0,0
+  32:ms_timer.c    **** 
+  33:ms_timer.c    **** /*** Millisecond Delay Function ***/
+  34:ms_timer.c    **** void msTimer_delay(uint32_t waitfor)
+  35:ms_timer.c    **** {
+ 279               		.stabn	68,0,35,.LM12-.LFBB3
+ 280               	.LM12:
+ 281               	.LFBB3:
+ 282 00d8 CF93      		push r28
+ 283 00da DF93      		push r29
+ 284 00dc CDB7      		in r28,__SP_L__
+ 285 00de DEB7      		in r29,__SP_H__
+ 286 00e0 2897      		sbiw r28,8
+ 287 00e2 0FB6      		in __tmp_reg__,__SREG__
+ 288 00e4 F894      		cli
+ 289 00e6 DEBF      		out __SP_H__,r29
+ 290 00e8 0FBE      		out __SREG__,__tmp_reg__
+ 291 00ea CDBF      		out __SP_L__,r28
+ 292               	/* prologue: function */
+ 293               	/* frame size = 8 */
+ 294               	/* stack size = 10 */
+ 295               	.L__stack_usage = 10
+ 296 00ec 6D83      		std Y+5,r22
+ 297 00ee 7E83      		std Y+6,r23
+ 298 00f0 8F83      		std Y+7,r24
+ 299 00f2 9887      		std Y+8,r25
+  36:ms_timer.c    ****     uint32_t target;
+  37:ms_timer.c    **** 
+  38:ms_timer.c    ****     target = msTimer_millis() + waitfor;
+ 300               		.stabn	68,0,38,.LM13-.LFBB3
+ 301               	.LM13:
+ 302 00f4 0E94 0000 		call msTimer_millis
+ 303 00f8 9B01      		movw r18,r22
+ 304 00fa AC01      		movw r20,r24
+GAS LISTING /tmp/cch9Ns7Z.s 			page 7
+
+
+ 305 00fc 8D81      		ldd r24,Y+5
+ 306 00fe 9E81      		ldd r25,Y+6
+ 307 0100 AF81      		ldd r26,Y+7
+ 308 0102 B885      		ldd r27,Y+8
+ 309 0104 820F      		add r24,r18
+ 310 0106 931F      		adc r25,r19
+ 311 0108 A41F      		adc r26,r20
+ 312 010a B51F      		adc r27,r21
+ 313 010c 8983      		std Y+1,r24
+ 314 010e 9A83      		std Y+2,r25
+ 315 0110 AB83      		std Y+3,r26
+ 316 0112 BC83      		std Y+4,r27
+  39:ms_timer.c    ****     while(_ms_counter < target);
+ 317               		.stabn	68,0,39,.LM14-.LFBB3
+ 318               	.LM14:
+ 319 0114 0000      		nop
+ 320               	.L6:
+ 321               		.stabn	68,0,39,.LM15-.LFBB3
+ 322               	.LM15:
+ 323 0116 2091 0000 		lds r18,_ms_counter
+ 324 011a 3091 0000 		lds r19,_ms_counter+1
+ 325 011e 4091 0000 		lds r20,_ms_counter+2
+ 326 0122 5091 0000 		lds r21,_ms_counter+3
+ 327 0126 8981      		ldd r24,Y+1
+ 328 0128 9A81      		ldd r25,Y+2
+ 329 012a AB81      		ldd r26,Y+3
+ 330 012c BC81      		ldd r27,Y+4
+ 331 012e 2817      		cp r18,r24
+ 332 0130 3907      		cpc r19,r25
+ 333 0132 4A07      		cpc r20,r26
+ 334 0134 5B07      		cpc r21,r27
+ 335 0136 00F0      		brlo .L6
+ 336               	/* epilogue start */
+  40:ms_timer.c    **** }
+ 337               		.stabn	68,0,40,.LM16-.LFBB3
+ 338               	.LM16:
+ 339 0138 2896      		adiw r28,8
+ 340 013a 0FB6      		in __tmp_reg__,__SREG__
+ 341 013c F894      		cli
+ 342 013e DEBF      		out __SP_H__,r29
+ 343 0140 0FBE      		out __SREG__,__tmp_reg__
+ 344 0142 CDBF      		out __SP_L__,r28
+ 345 0144 DF91      		pop r29
+ 346 0146 CF91      		pop r28
+ 347 0148 0895      		ret
+ 348               		.size	msTimer_delay, .-msTimer_delay
+ 349               		.stabs	"target:(2,6)",128,0,36,1
+ 350               		.stabn	192,0,0,.LFBB3-.LFBB3
+ 351               		.stabn	224,0,0,.Lscope3-.LFBB3
+ 352               	.Lscope3:
+ 353               		.stabs	"",36,0,0,.Lscope3-.LFBB3
+ 354               		.stabd	78,0,0
+ 355               		.stabs	"msTimer_start:F(0,47)",36,0,43,msTimer_start
+ 356               	.global	msTimer_start
+ 357               		.type	msTimer_start, @function
+ 358               	msTimer_start:
+ 359               		.stabd	46,0,0
+GAS LISTING /tmp/cch9Ns7Z.s 			page 8
+
+
+  41:ms_timer.c    **** 
+  42:ms_timer.c    **** /*** Millisecond Timer Initialization Function ***/
+  43:ms_timer.c    **** void msTimer_start(void)
+  44:ms_timer.c    **** {
+ 360               		.stabn	68,0,44,.LM17-.LFBB4
+ 361               	.LM17:
+ 362               	.LFBB4:
+ 363 014a CF93      		push r28
+ 364 014c DF93      		push r29
+ 365 014e CDB7      		in r28,__SP_L__
+ 366 0150 DEB7      		in r29,__SP_H__
+ 367               	/* prologue: function */
+ 368               	/* frame size = 0 */
+ 369               	/* stack size = 2 */
+ 370               	.L__stack_usage = 2
+  45:ms_timer.c    ****     // Leave everything alone in TCCR0A and just set the prescaler to Clk/8
+  46:ms_timer.c    ****     TCCR0B |= (1 << CS01);
+ 371               		.stabn	68,0,46,.LM18-.LFBB4
+ 372               	.LM18:
+ 373 0152 85E4      		ldi r24,lo8(69)
+ 374 0154 90E0      		ldi r25,0
+ 375 0156 25E4      		ldi r18,lo8(69)
+ 376 0158 30E0      		ldi r19,0
+ 377 015a F901      		movw r30,r18
+ 378 015c 2081      		ld r18,Z
+ 379 015e 2260      		ori r18,lo8(2)
+ 380 0160 FC01      		movw r30,r24
+ 381 0162 2083      		st Z,r18
+  47:ms_timer.c    ****     
+  48:ms_timer.c    ****     // Enable interrupt when Timer/Counter0 reaches max value and overflows
+  49:ms_timer.c    ****     TIMSK0 |= (1 << TOIE0);
+ 382               		.stabn	68,0,49,.LM19-.LFBB4
+ 383               	.LM19:
+ 384 0164 8EE6      		ldi r24,lo8(110)
+ 385 0166 90E0      		ldi r25,0
+ 386 0168 2EE6      		ldi r18,lo8(110)
+ 387 016a 30E0      		ldi r19,0
+ 388 016c F901      		movw r30,r18
+ 389 016e 2081      		ld r18,Z
+ 390 0170 2160      		ori r18,lo8(1)
+ 391 0172 FC01      		movw r30,r24
+ 392 0174 2083      		st Z,r18
+ 393               	/* epilogue start */
+  50:ms_timer.c    **** }
+ 394               		.stabn	68,0,50,.LM20-.LFBB4
+ 395               	.LM20:
+ 396 0176 DF91      		pop r29
+ 397 0178 CF91      		pop r28
+ 398 017a 0895      		ret
+ 399               		.size	msTimer_start, .-msTimer_start
+ 400               	.Lscope4:
+ 401               		.stabs	"",36,0,0,.Lscope4-.LFBB4
+ 402               		.stabd	78,0,0
+ 403               		.stabs	"_ms_counter:G(0,48)=B(2,6)",32,0,7,0
+ 404               		.stabs	"_ms_subCounter:G(0,49)=B(2,2)",32,0,8,0
+ 405               		.stabs	"",100,0,0,.Letext0
+ 406               	.Letext0:
+GAS LISTING /tmp/cch9Ns7Z.s 			page 9
+
+
+ 407               		.ident	"GCC: (GNU) 4.8.1"
+ 408               	.global __do_clear_bss
+GAS LISTING /tmp/cch9Ns7Z.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 ms_timer.c
+     /tmp/cch9Ns7Z.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/cch9Ns7Z.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/cch9Ns7Z.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/cch9Ns7Z.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cch9Ns7Z.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cch9Ns7Z.s:108    .bss:0000000000000000 _ms_counter
+     /tmp/cch9Ns7Z.s:113    .bss:0000000000000004 _ms_subCounter
+     /tmp/cch9Ns7Z.s:119    .text:0000000000000000 __vector_16
+     /tmp/cch9Ns7Z.s:209    .text:0000000000000096 msTimer_millis
+     /tmp/cch9Ns7Z.s:277    .text:00000000000000d8 msTimer_delay
+     /tmp/cch9Ns7Z.s:358    .text:000000000000014a msTimer_start
+
+UNDEFINED SYMBOLS
+__do_clear_bss
