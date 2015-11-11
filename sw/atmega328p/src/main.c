@@ -3,7 +3,7 @@
 #include <avr/interrupt.h>
 #include "oven_control.h"
 #include "ms_timer.h"
-//#include "macros.h"
+#include "usart.h"
 
 int main(void)
 {
@@ -18,9 +18,10 @@ int main(void)
     EICRA |= (1 << ISC01);      // Falling edge of INT0 generates an IRQ
     EIMSK |= (1 << INT0);       // Enable INT0 external interrupt mask
     
-    // Setup I/O direction & values, start timers
+    // Setup oven, timers, USART, SPI
     oven_start();
     msTimer_start();
+    usart_start(BAUD_PRESCALE);
 
     // Ready to roll. Turn on global interrupt flag
     sei();
