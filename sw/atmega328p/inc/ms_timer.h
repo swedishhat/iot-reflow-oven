@@ -13,6 +13,12 @@ uint32_t msTimer_millis(void);
 void msTimer_delay(uint32_t waitfor);
 
 /*** Millisecond Timer Initialization Function ***/
-void msTimer_start(void);
+void msTimer_setup(void);
+
+/*** Time Delta Function ***/
+uint32_t msTimer_deltaT(uint32_t start);
+
+/*** Timeout Detection Function ***/
+bool msTimer_hasTimedOut(uint32_t start,uint32_t timeout);
 
 #endif

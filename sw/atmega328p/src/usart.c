@@ -1,9 +1,7 @@
-#include <stdint.h>
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include "usart.h"
+#include "globals.h"
 
-void usart_start(uint32_t ubrr)
+/*** USART Initialization Function ***/
+void usart_setup(uint32_t ubrr)
 {
     // Set baud rate by loading high and low bytes of ubrr into UBRR0 register
     UBRR0H = (ubrr >> 8); 
@@ -22,6 +20,7 @@ void usart_start(uint32_t ubrr)
     UCSR0C = (1 << UCSZ00) | (1 << UCSZ01);
 }
 
+/*** USART Flush Function ***/
 void usart_flush(void)
 {
     uint8_t dummy __attribute__((unused));
@@ -29,6 +28,34 @@ void usart_flush(void)
         dummy = UDR0;
 }
 
+/*** USART Transmit Byte Function ***/
+void usart_txb(const char data)
+{
+    // Wait for empty transmit buffer
+    while (!(UCSR0A & (1 << UDRE0)));
+
+    // Put data into buffer, sends the data
+    UDR0 = data;
+}
+
+
+/*** USART Print String Function ***/
+void usart_print (const char *data)
+{
+    while (*data != '\0')
+        usart_txb(*data++);
+}
+
+/*** USART Print String Function with New Line and Carriage Return ***/
+void usart_println (const char *data)
+{
+    while (*data != '\0')
+        usart_txb(*data++);
+    usart_txb('\n');
+    usart_txb('\r');
+}
+
+/*** Echo on Receive ISR ***/
 ISR(USART_RX_vect)
 {
     unsigned char ReceivedByte;

@@ -1,9 +1,4 @@
-#include <stdint.h>
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include "oven_control.h"
-#include "ms_timer.h"
-#include "usart.h"
+#include "globals.h"
 
 int main(void)
 {
@@ -19,13 +14,17 @@ int main(void)
     EIMSK |= (1 << INT0);       // Enable INT0 external interrupt mask
     
     // Setup oven, timers, USART, SPI
-    oven_start();
-    msTimer_start();
-    usart_start(BAUD_PRESCALE);
+    oven_setup();
+    msTimer_setup();
+    usart_setup(BAUD_PRESCALE);
 
-    // Ready to roll. Turn on global interrupt flag
+    max31855 *m = max31855_setup();
+    
+    // Ready to roll. Flush USART buffer and turn on global interrupt flag
+    usart_flush();
     sei();
 
+    usart_println("Hot Toaster Action");
     // Main program loop
     for(;;)
     {                
@@ -37,7 +36,9 @@ int main(void)
             oven_setDutyCycle(i);
             if (i == 100) dir = -1;             // switch direction at peak
             msTimer_delay(10);
+            if(max31855_readTempDone(m)) max31855_print(m);
         } 
+        
     }
 
     return 1;

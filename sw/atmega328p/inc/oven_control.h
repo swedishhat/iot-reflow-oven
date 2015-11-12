@@ -35,5 +35,5 @@ extern volatile uint8_t _counter_t2;
 
 void oven_setDutyCycle(uint8_t percent);
 
-void oven_start(void);
+void oven_setup(void);
 #endif

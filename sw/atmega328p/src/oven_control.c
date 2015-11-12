@@ -107,7 +107,7 @@ void oven_setDutyCycle(uint8_t percent)
 }
 
 /*** Configure Oven GPIO and Begin Timer2 ***/
-void oven_start(void)
+void oven_setup(void)
 {
     // Setup inputs and outputs
     CONFIG_AS_OUTPUT(TRIAC_EN);

@@ -15,7 +15,19 @@
 #define USART_RX_DDR    DDRD
 #define USART_RX_PIN    PIND
 
-void usart_start(uint32_t ubrr);
+/*** USART Initialization Function ***/
+void usart_setup(uint32_t ubrr);
+
+/*** USART Flush Function ***/
 void usart_flush(void);
+
+/*** USART Transmit Byte Function ***/
+void usart_txb(const char data);
+
+/*** USART Print String Function ***/
+void usart_print (const char *data);
+
+/*** USART Print String Function with New Line and Carriage Return ***/
+void usart_println (const char *data);
 
 #endif

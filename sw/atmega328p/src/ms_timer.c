@@ -1,7 +1,5 @@
 // Millisecond timer. Short and sweet. Like you!
-#include <stdint.h>
-#include <avr/interrupt.h>
-#include "ms_timer.h"
+#include "globals.h"
 
 /*** Millisecond Timer Variables ***/
 volatile uint32_t   _ms_counter = 0;
@@ -40,11 +38,32 @@ void msTimer_delay(uint32_t waitfor)
 }
 
 /*** Millisecond Timer Initialization Function ***/
-void msTimer_start(void)
+void msTimer_setup(void)
 {
     // Leave everything alone in TCCR0A and just set the prescaler to Clk/8
     TCCR0B |= (1 << CS01);
     
     // Enable interrupt when Timer/Counter0 reaches max value and overflows
     TIMSK0 |= (1 << TOIE0);
+}
+
+/*** Time Delta Function ***/
+uint32_t msTimer_deltaT(uint32_t start)
+{
+    // Return difference between a starting time and now, taking into account
+    // wrap around
+    uint32_t now = msTimer_millis();
+
+    if(now > start)
+        return now - start;
+    else
+        return now + (0xffffffff - start + 1);
+}  
+
+/*** Timeout Detection Function ***/
+bool msTimer_hasTimedOut(uint32_t start,uint32_t timeout)
+{
+    // Check if a timeout has been exceeded. This is designed to cope with wrap
+    // around
+    return msTimer_deltaT(start) > timeout;
 }
