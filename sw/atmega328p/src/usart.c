@@ -49,10 +49,8 @@ void usart_print (const char *data)
 /*** USART Print String Function with New Line and Carriage Return ***/
 void usart_println (const char *data)
 {
-    while (*data != '\0')
-        usart_txb(*data++);
-    usart_txb('\n');
-    usart_txb('\r');
+    usart_print(*data);
+    usart_print("\n\r");
 }
 
 /*** Echo on Receive ISR ***/
