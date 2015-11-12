@@ -1,8 +1,6 @@
-#include <stdint.h>
-#include <avr/interrupt.h>
-#include <avr/pgmspace.h>
-#include "oven_control.h"
-#include "macros.h"
+/*** oven_control.c ***/
+
+#include "globals.h"
 
 /*** Oven Control Variables ***/
 volatile uint8_t    _percent = 0;
@@ -115,6 +113,10 @@ void oven_setup(void)
 
     // Initial values for outputs
     SET_LOW(TRIAC_EN);
+    
+    // Configure external interrupt registers (Eventually move into macros.h)
+    EICRA |= (1 << ISC01);      // Falling edge of INT0 generates an IRQ
+    EIMSK |= (1 << INT0);       // Enable INT0 external interrupt mask
 
     // Enable Timer/Counter2 and trigger interrupts on both overflows & when
     // it equals OC2A    
