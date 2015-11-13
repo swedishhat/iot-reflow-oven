@@ -85,18 +85,203 @@ ISR(INT0_vect)
 }
 ```
 
-This triggers on the falling edge of pin PD2. Depending on what the global `_percent` variable is set to, it will either turn the oven full on, full off, or if the
+This triggers on the falling edge of pin PD2. Depending on what the global `_percent` variable is set to, it will either turn the oven full on, full off, or set the Timer/Counter2 "Output Compare Register A" to a value corresponding to the "off time" after zero-cross interrupt fires. It then clears Timer/Counter2 and starts the timer.
 
-has It uses Timer2 to
+** ISR(TIMER2_COMPA_vect) **
+```
+ISR(TIMER2_COMPA_vect)
+{
+    // Turn on oven, hold it active for a min latching time before switching it off
+    OVEN_ON();
+
+    // The overflow interrupt will fire when the minimum pulse width is reached
+    TCNT2 = 256 - TRIAC_PULSE_TICKS;
+}
+```
+
+When the output comparison value is met, this interrupt is fired and it sets the TRIAC_ACTIVE pin high and loads up the TCNT2 register so that it overflows after TRIAC_PULSE_TICKS counts later.
+
+** ISR(TIMER2_OVF_vect) **
+```
+ISR(TIMER2_OVF_vect)
+{
+    // Turn off oven
+    OVEN_OFF();
+
+    // turn off the timer. the zero-crossing handler will restart it
+    TCCR2B = 0;
+}
+```
+When the timer overflows, the TRIAC_ACTIVE pin goes low and the timer turns off, waiting for an INT0_vect to repeat the process.
+
+The `powerLUT[99]` array is used to map the linear percentage scale to a non-linear curve. With a linear scale, the actual power output change between 1% and 2% or 97% to 98% is significantly less than that at 50% to 51%. This is due to the sinusoidal nature of the quarter waveform we're dimming. This remapping lookup table helps to correct that -- see [Update 1: improving the phase angle timing](http://andybrown.me.uk/2015/07/12/awreflow2/) for more info. The PROGMEM attribute places the whole array into FLASH memory instead of RAM, saving space for the actual program. This will be useful for constant string storage as well later on in the series.
 
 #### USART
-In normal C or C++ programming on a computer, functions like `assert()` and `sprintf()` can print formatted text to the terminal and help with debugging.
+In normal C or C++ programming on a computer, functions like `assert()` and `sprintf()` can print formatted text to the terminal and help with debugging. In order to communicate with our device, we need to implement some way of printing to a terminal. The easiest way of doing that is through serial communication with the ATmega's USART and a USB-serial converter.
 
-When dealing with microcontrollers, there is rarely a
+**usart_setup(uint32_t ubrr)**
+```
+void usart_setup(uint32_t ubrr)
+{
+    // Set baud rate by loading high and low bytes of ubrr into UBRR0 register
+    UBRR0H = (ubrr >> 8);
+    UBRR0L = ubrr;
+
+    // Turn on the transmission and reception circuitry
+    UCSR0B = (1 << RXCIE0) | (1 << RXEN0 ) | (1 << TXEN0 );
+
+    /* Set frame format: 8data, 2stop bit */
+    UCSR0C = (1<<USBS0) | (3<<UCSZ00);
+
+    // Use 8-N-1 -> Eight (8) data bits, No (N) partiy bits, one (1) stop bit
+    // The initial vlaue of USCR0C is 0b00000110 which implements 8N1 by
+    // Default. Setting these bits is for Paranoid Patricks and people that
+    // Like to be reeeeeally sure that the hardware is doing what you say
+    UCSR0C = (1 << UCSZ00) | (1 << UCSZ01);
+}
+```
+
+In `usart.c`, there is the standard `usart_setup(uint32_t ubrr)` initialization function that enables the hardware and establishes the baud rate (bits/second) and transmission settings (8 data bits, no parity bits, 1 stop bit). This is hard-coded to 9600 baud for now in the `usart.h` file.
+
+**void usart_txb(const char data)**
+```
+void usart_txb(const char data)
+{
+    // Wait for empty transmit buffer
+    while (!(UCSR0A & (1 << UDRE0)));
+
+    // Put data into buffer, sends the data
+    UDR0 = data;
+}
+```
+
+This function accepts a single byte and when the transmit buffer is empty, loads the byte into the buffer. This is the basis for the other printing functions.
+
+**void usart_print (const char *data) and usart_println (const char *data)**
+```
+/*** USART Print String Function ***/
+void usart_print (const char *data)
+{
+    while (*data != '\0')
+        usart_txb(*data++);
+}
+```
+```
+/*** USART Print String Function with New Line and Carriage Return ***/
+void usart_println (const char *data)
+{
+    usart_print(data);
+    usart_print("\n\r");    // GNU screen demands \r as well as \n :(
+}
+```
+
+Much like Arduino's Serial.print() and Serial.println() functions, these take a string as an argument and for each character, calls the `usart_txb()` function. `usart_println()` just has an extra step to print a new line and a carriage return.
+
+**ISR(USART_RX_vect)**
+```
+ISR(USART_RX_vect)
+{
+    unsigned char ReceivedByte;
+    ReceivedByte = UDR0;
+    UDR0 = ReceivedByte;
+}
+```
+
+Right now there is no way to meaningfully interact with the software through the USART --  `ISR(USART_RX_vect)` was written as a placeholder for future development. When a character is received from the USB-serial converter, an interrupt is fired and it echos that same character to the output so it shows up on the screen.
+
+#### General Purpose Timer
+General delay and time comparison functions are very helpful in a lot of microcontroller applications. The `_delay()` function in `<avr/utils.h>` is helpful for small delays since it uses a while loop and `nop` instructions to do nothing for the specified amount of time. This prevents anything else from happening in the program, however. To deal with measuring longer blocks of time that allow for the program to continue, we use one of the free hardware timers and interrupts. On the ATmega328P, Timer/Counter0 is kind of gimpy and doesn't have as much functionality as Timer/Counter1 and Timer/Counter2 so it's a small triumph to be able to use it for something useful. We still have T/C1 but it would be nice to save it for something more complicated in the future.
+
+**void msTimer_setup(void)**
+```
+void msTimer_setup(void)
+{
+    // Leave everything alone in TCCR0A and just set the prescaler to Clk/8
+    // in TCCR0B
+    TCCR0B |= (1 << CS01);
+
+    // Enable interrupt when Timer/Counter0 reaches max value and overflows
+    TIMSK0 |= (1 << TOIE0);
+}
+```
+
+The first function is of course the initialization function. It sets the prescaler to 1 MHz and enables the overflow interrupt.
+
+**uint32_t msTimer_millis(void)**
+```
+uint32_t msTimer_millis(void)
+{
+    uint32_t ms;
+
+    // NOTE: an 8-bit MCU cannot atomically read/write a 32-bit value so we
+    // must disable interrupts while retrieving the value to avoid getting a
+    // half-written value if an interrupt gets in while we're reading it
+    cli();
+    ms=_ms_counter;
+    sei();
+
+    return ms;
+}
+```
+
+The msTimer functions chain together and all eventually call this function in some way. This simply returns the value of the global `_ms_counter` variable which is updated every millisecond.
+
+**void msTimer_delay(uint32_t waitfor)**
+```
+void msTimer_delay(uint32_t waitfor)
+{
+    uint32_t target;
+
+    target = msTimer_millis() + waitfor;
+    while(_ms_counter < target);
+}
+```
+
+This is the `delay()` utility function. It accepts as an argument the amount of milliseconds you'd like it to wait for and blocks with a `while()` loop until finished. This should still only be used for short delays.
+
+**uint32_t msTimer_deltaT(uint32_t start)**
+```
+uint32_t msTimer_deltaT(uint32_t start)
+{
+    // Return difference between a starting time and now, taking into account
+    // wraparound
+    uint32_t now = msTimer_millis();
+
+    if(now > start)
+        return now - start;
+    else
+        return now + (0xffffffff - start + 1);
+}
+```
+
+Measures time delta between start time and current time. Can be used for delay loops that don't block. It also accounts for wraparound -- since time is saved in a 32-bit uint32_t variable, when it reaches 0xFFFFFFFF and increments, it rolls back around to zero. This factors that in to the calculation.
+
+**bool msTimer_hasTimedOut(uint32_t start,uint32_t timeout)**
+```
+bool msTimer_hasTimedOut(uint32_t start,uint32_t timeout)
+{
+    // Check if a timeout has been exceeded. This is designed to cope with wrap
+    // around
+    return msTimer_deltaT(start) > timeout;
+}
+```
+
+True or false flag thrown when checking if a certain amount of time has passed. This is used in the temperature sensor so that you can call the `read()` function at whatever speed you want but it will only update according to its timeout interval.
+
+**ISR(TIMER0_OVF_vect)**
+```
+ISR(TIMER0_OVF_vect)
+{
+    _ms_subCounter++;
+    if((_ms_subCounter & 0x3) == 0) _ms_counter++;
+    TCNT0 += 6;
+}
+```
+
+The ISR running the show. Very accurately increments the global `_ms_counter` variable every millisecond.
 
 #### Temperature Sensor
 
-#### General Purpose Timer
 
 #### Putting it All Together
 The `main.c` file is just a small test file that initializes all the other parts through the `(device)_setup` command, flushes anything in the USART and then goes into an endless loop. In the loop, it fades the TRIAC drive intensity in and out and constantly tries to read the temperature. Since there's a poll interval specified in the `max31855_readTempDone()` function, it will only update and print status and temperature at that rate.

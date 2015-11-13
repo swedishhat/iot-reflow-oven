@@ -8,6 +8,7 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <avr/pgmspace.h>
 
 #include "macros.h"
 #include "oven_control.h"
