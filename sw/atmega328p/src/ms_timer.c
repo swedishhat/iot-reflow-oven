@@ -15,15 +15,6 @@ void msTimer_setup(void)
     TIMSK0 |= (1 << TOIE0);
 }
 
-/*** Millisecond Delay Function ***/
-void msTimer_delay(uint32_t waitfor)
-{
-    uint32_t target;
-
-    target = msTimer_millis() + waitfor;
-    while(_ms_counter < target);
-}
-
 /*** Millisecond Counter Function ***/
 uint32_t msTimer_millis(void)
 {
@@ -37,6 +28,15 @@ uint32_t msTimer_millis(void)
     sei();
 
     return ms;
+}
+
+/*** Millisecond Delay Function ***/
+void msTimer_delay(uint32_t waitfor)
+{
+    uint32_t target;
+
+    target = msTimer_millis() + waitfor;
+    while(_ms_counter < target);
 }
 
 /*** Timeout Detection Function ***/

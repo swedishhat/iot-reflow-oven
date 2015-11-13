@@ -1,4 +1,5 @@
-// macros.h
+/*** macros.h ***/
+
 #ifndef _MACROS_H_
 #define _MACROS_H_
 
@@ -27,7 +28,7 @@
 #define REED_CONTACT_PCMSK          PCMSK0
 #define REED_CONTACT_PCINT          PCINT0 */
 
-// Pin MUXing for ADC 
+// Pin MUXing for ADC
 // (Analog comparator uses DIDR1)
 //#define disable_digital_input(channel)      {DIDR0 |= (1 << channel);}
 //#define enable_digital_input(channel)       {DIDR0 &= ~(1 << channel);}
@@ -37,6 +38,3 @@
 //#define disable_pin_change_interrupt(pin)   {pin ## _PCMSK &= ~(1<< pin ## _PCINT);}
 
 #endif
-
-
-

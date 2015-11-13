@@ -13,7 +13,7 @@ volatile uint8_t    _counter_t2 = 0;
  * doc for more info on PROGMEM attribute:
  *
  * http://www.github.com/abcminiuser/avr-tutorials/blob/master/Progmem/Output/Progmem.pdf?raw=true */
-static const PROGMEM uint8_t powerLUT[99] = 
+static const PROGMEM uint8_t powerLUT[99] =
 {
     6, 9, 11,13,14,16,17,18,19,21,
     22,23,23,24,26,26,27,28,29,29,
@@ -24,8 +24,48 @@ static const PROGMEM uint8_t powerLUT[99] =
     57,58,58,59,59,61,61,62,62,63,
     64,64,65,66,67,67,68,69,69,71,
     71,72,73,74,74,76,77,77,78,79,
-    81,82,83,84,86,87,89,91,94  
+    81,82,83,84,86,87,89,91,94
 };
+
+/*** Configure Oven GPIO and Begin Timer2 ***/
+void oven_setup(void)
+{
+    // Setup inputs and outputs
+    CONFIG_AS_OUTPUT(TRIAC_EN);
+    CONFIG_AS_INPUT(ZERO_CROSS);
+
+    // Initial values for outputs
+    SET_LOW(TRIAC_EN);
+
+    // Configure external interrupt registers (Eventually move into macros.h)
+    EICRA |= (1 << ISC01);      // Falling edge of INT0 generates an IRQ
+    EIMSK |= (1 << INT0);       // Enable INT0 external interrupt mask
+
+    // Enable Timer/Counter2 and trigger interrupts on both overflows & when
+    // it equals OC2A
+    TIMSK2 |= (1 << OCIE2A) | (1 << TOIE2);
+}
+
+/*** Oven Duty Cycle Function ***/
+void oven_setDutyCycle(uint8_t percent)
+{
+
+    uint16_t newCounter;
+
+    // percentages between 1 and 99 inclusive use the lookup table to translate a linear
+    // demand for power to a position on the phase angle axis
+    if(percent > 0 && percent < 100)
+        _percent = pgm_read_byte(&powerLUT[percent - 1]);
+
+    // calculate the new counter value
+    newCounter = ((TICKS_PER_HALF_CYCLE - MARGIN_TICKS - TRIAC_PULSE_TICKS) * (100 - percent)) / 100;
+
+    // set the new state with interrupts off because 16-bit writes are not atomic
+    cli();
+    _counter_t2 = newCounter;
+    _percent = percent;
+    sei();
+}
 
 /*** Zero-Crossing External ISR ***/
 ISR(INT0_vect)
@@ -41,7 +81,7 @@ ISR(INT0_vect)
     // either user asked for 100 or calc rounds up to 100
     else if(_percent == 100 || _counter_t2 == 0)
     {
-        OVEN_ON(); 
+        OVEN_ON();
     }
     // Comparison to a constant is pretty fast
     else if(_counter_t2 > TICKS_PER_HALF_CYCLE - TRIAC_PULSE_TICKS - MARGIN_TICKS)
@@ -53,7 +93,7 @@ ISR(INT0_vect)
             OVEN_OFF();
             return;
         }
-        else 
+        else
             _counter_t2 = TICKS_PER_HALF_CYCLE - TRIAC_PULSE_TICKS - MARGIN_TICKS;
     }
 
@@ -82,44 +122,3 @@ ISR(TIMER2_OVF_vect)
     // turn off the timer. the zero-crossing handler will restart it
     TCCR2B = 0;
 }
-
-/*** Oven Duty Cycle Function ***/
-void oven_setDutyCycle(uint8_t percent)
-{
-
-    uint16_t newCounter;
-    
-    // percentages between 1 and 99 inclusive use the lookup table to translate a linear
-    // demand for power to a position on the phase angle axis
-    if(percent > 0 && percent < 100)
-        _percent = pgm_read_byte(&powerLUT[percent - 1]);
-
-    // calculate the new counter value
-    newCounter = ((TICKS_PER_HALF_CYCLE - MARGIN_TICKS - TRIAC_PULSE_TICKS) * (100 - percent)) / 100;
-
-    // set the new state with interrupts off because 16-bit writes are not atomic
-    cli();
-    _counter_t2 = newCounter;
-    _percent = percent;
-    sei();
-}
-
-/*** Configure Oven GPIO and Begin Timer2 ***/
-void oven_setup(void)
-{
-    // Setup inputs and outputs
-    CONFIG_AS_OUTPUT(TRIAC_EN);
-    CONFIG_AS_INPUT(ZERO_CROSS);
-
-    // Initial values for outputs
-    SET_LOW(TRIAC_EN);
-    
-    // Configure external interrupt registers (Eventually move into macros.h)
-    EICRA |= (1 << ISC01);      // Falling edge of INT0 generates an IRQ
-    EIMSK |= (1 << INT0);       // Enable INT0 external interrupt mask
-
-    // Enable Timer/Counter2 and trigger interrupts on both overflows & when
-    // it equals OC2A    
-    TIMSK2 |= (1 << OCIE2A) | (1 << TOIE2);
-}
-

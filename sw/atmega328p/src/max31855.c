@@ -1,18 +1,21 @@
+/*** max31855.c ***/
+
 #include "globals.h"
 
 /*** Temperature Sensor "Object" Constructor ***/
 max31855 *max31855_setup(void)
 {
+    // Reserve some space and make sure that it's not null
     max31855 *tempSense = malloc(sizeof(max31855));
     assert(tempSense != NULL);
-    
-    // Initilaize struct (no malloc since size of max31855_t always static)
+
+    // Initilaize struct
     tempSense->extTemp = 0;
     tempSense->intTemp = 0;
     tempSense->status = UNKNOWN;
-    // Not sure why Andy Brown makes his last temp time start at 0xFFFFD8EF:
+    // Not sure why Andy Brown makes his last temp time start at 0xFFFFD8EF but
+    // it works... Maybe it's to test timer0 wrap around / guarantee causality:
     // https://github.com/andysworkshop/awreflow2/blob/master/atmega8l/TemperatureSensor.h
-    // Maybe it's to test timer0 wrap around / guarantee causality
     tempSense->lastTempTime = 0xFFFFFFFF - 10000;
     tempSense->pollInterval = DEFAULT_POLL_INTERVAL;
 
@@ -21,10 +24,10 @@ max31855 *max31855_setup(void)
     CONFIG_AS_OUTPUT(MAX31855_MOSI);
     CONFIG_AS_OUTPUT(MAX31855_SCK);
     CONFIG_AS_INPUT(MAX31855_MISO);
-    
+
     // Enable pullup on ~CS
     PULLUP_ON(MAX31855_CS);
-    
+
     // Set outputs to default values
     SET_HIGH(MAX31855_CS);
     SET_LOW(MAX31855_MOSI);
@@ -34,28 +37,11 @@ max31855 *max31855_setup(void)
     // Paranoid Patricks over here and also like to make our code clear!)
     SPCR = (1 << SPE) | (1 << MSTR);
     SPCR &= ~((1 << SPR1) | (1 << SPR0)); // Not necessary............
-    
+
     // Super speed 2x SPI clock powerup!
     SPSR |= (1 << SPI2X);
 
     return tempSense;
-}
-
-/*** Temperature Sensor Printing Function ***/
-void max31855_print(max31855 *tempSense)
-{
-    // int16_t max = 65535, + '\0'
-    char ibuffer[6] = {0};    
-    char ebuffer[6] = {0};    
-    
-    usart_print("Status: ");
-    usart_println(max31855_statusString(tempSense->status));
-    
-    usart_print("External Temp: ");
-    usart_println(itoa(tempSense->extTemp, ibuffer, 10));
-    
-    usart_print("Internal Temp: ");
-    usart_println(itoa(tempSense->intTemp, ebuffer, 10));
 }
 
 /*** Read and Update Temperature Sensor Function ***/
@@ -68,13 +54,13 @@ bool max31855_readTempDone(max31855 *tempSense)
 
         // Bring ~CS low
         SET_LOW(MAX31855_CS);
-        
+
         // clock 4 bytes from the SPI bus
         for(i = 0; i < 4; i++)
         {
             SPDR = 0;                           // start "transmitting" (actually just clocking)
             while(!(SPSR & (1 << SPIF)));       // wait until transfer ends
-        
+
             rawBits <<= 8;                      // make space for the byte
             rawBits |= SPDR;                    // merge in the new byte
         }
@@ -95,7 +81,7 @@ bool max31855_readTempDone(max31855 *tempSense)
             // bit >> 2; intTemp = 0.0625 C per bit >> 4)
             tempSense->extTemp = rawBits >> 20;
             tempSense->intTemp = (rawBits & 0x0000FFF0) >> 8;
-                
+
             // Extend sign bit if negative value is read. In an oven. HA!
             if(tempSense->extTemp & 0x0800)
                 tempSense->extTemp |= 0xF000;
@@ -107,7 +93,7 @@ bool max31855_readTempDone(max31855 *tempSense)
             // Set temps to something obviously wrong
             tempSense->extTemp = -22222;
             tempSense->intTemp = -11111;
-            
+
             // Which error code is it?
             switch(d)
             {
@@ -125,7 +111,7 @@ bool max31855_readTempDone(max31855 *tempSense)
                     break;
             }
         }
-        
+
         // Update the timestamp and let the read loop unblock
         tempSense->lastTempTime = msTimer_millis();
         return true;
@@ -150,4 +136,21 @@ const char *max31855_statusString(uint8_t status)
             return "OC_FAULT";
     }
     return "Err";
+}
+
+/*** Temperature Sensor Printing Function ***/
+void max31855_print(max31855 *tempSense)
+{
+    // int16_t max = 65535, + '\0'
+    char ibuffer[6] = {0};
+    char ebuffer[6] = {0};
+
+    usart_print("Status: ");
+    usart_println(max31855_statusString(tempSense->status));
+
+    usart_print("External Temp: ");
+    usart_println(itoa(tempSense->extTemp, ibuffer, 10));
+
+    usart_print("Internal Temp: ");
+    usart_println(itoa(tempSense->intTemp, ebuffer, 10));
 }
