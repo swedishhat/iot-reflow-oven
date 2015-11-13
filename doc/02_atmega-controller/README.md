@@ -1,6 +1,7 @@
 ![Look beyond the Arduino exterior, it's a raw ATmega underneath!](images/ardpromini-thumb.jpg)
 
 # Designing the Controller for a DIY Solder Reflow Oven
+#### By [Patrick Lloyd](http://www.allaboutcircuits.com/author/patrick-lloyd)
 
 ## Summary
 In the last installment, we built the hardware to control an AC waveform with a TRIAC as the first step in a DIY solder reflow oven. This tutorial continues the project by showing you how to set up the low-level hardware to measure temperature, read the zero-cross detector, drive the TRIAC, and print to the serial terminal using a USART.
@@ -21,9 +22,9 @@ Last time we built the TRIAC driver and zero-cross detection circuitry to interf
 3. Interface with MAX31855 thermocouple amplifier over the _Serial Peripheral Interface_ (SPI)
 4. Create a general purpose millisecond timer to help facilitate timeouts, timestamps, and non-blocking delays
 
-Bare metal C means that we are writing very low-level code -- C is just a single step up from assembly language as far as abstraction goes. This means we'll be manipulating bits in specific registers, specifying interrupt vectors directly in our interrupt service routines (ISRs), and sometimes dealing with raw memory allocation with `malloc()`. There are some macros that make this process a little easier for us (and make the code cleaner to read) but familiarity with some of the actual inner workings of the ATmega328P and the names it uses for different registers and components is very important. The [complete datasheet](http://www.atmel.com/images/Atmel-8271-8-bit-AVR-Microcontroller-ATmega48A-48PA-88A-88PA-168A-168PA-328-328P_datasheet_Complete.pdf)(PDF) for the chip has all that info in it and is worth keeping on hand. [Programming from the Gound Up](http://programminggroundup.blogspot.com/) may be a helpful resource as well for getting comfortable with low-level development.
+Bare metal C means that we are writing very low-level code -- C is just a single step up from assembly language as far as abstraction goes. This means we'll be manipulating bits in specific registers, specifying interrupt vectors directly in our interrupt service routines (ISRs), and sometimes dealing with raw memory allocation with `malloc()`. There are some macros that make this process a little easier for us in `macros.h`(and make the code cleaner to read) but familiarity with some of the actual inner workings of the ATmega328P and the names it uses for different registers and components is very important. The [complete datasheet](http://www.atmel.com/images/Atmel-8271-8-bit-AVR-Microcontroller-ATmega48A-48PA-88A-88PA-168A-168PA-328-328P_datasheet_Complete.pdf)(PDF) for the chip has all that info in it and is worth keeping on hand. [Programming from the Gound Up](http://programminggroundup.blogspot.com/) may be a helpful resource as well for getting comfortable with low-level development.
 
-_I borrowed some of my code from [Andy Brown](http://andybrown.me.uk/) and his [ATmega8 oven controller](https://github.com/andysworkshop/awreflow2/tree/master/atmega8l). There is some drop-in code reuse, some tweaked bits, and some totally different implementations. In addition to having a different controller, he wrote his code in C++ and uses a different build system but I still want to give him full credit for the previous work he's done._
+_I'm using some code from [Andy Brown](http://andybrown.me.uk/) and his [ATmega8 oven controller](https://github.com/andysworkshop/awreflow2/tree/master/atmega8l). There is some drop-in code reuse, some tweaked bits, and some totally different implementations. In addition to having a different controller, he wrote his code in C++ and uses a different build system but I still want to give him full credit for the previous work he's done._
 
 #### What You Need for this Project
 This project is mostly software so the parts count is relatively small. You'll need:
@@ -34,10 +35,11 @@ This project is mostly software so the parts count is relatively small. You'll n
   * [AVR Dragon](http://www.atmel.com/tools/AVRDRAGON.aspx) - I use this one. Lots of features and relatively cheap
   * [Arduino Uno](https://www.arduino.cc/en/Tutorial/ArduinoToBreadboard) - Other main Arduino boards can be used as a programmer as well.
 * USB-Serial Adapter
+  * [CH340/CH341](http://www.seeedstudio.com/wiki/USB_To_Uart_5V/3V3)
   * [FT232RL](https://www.sparkfun.com/products/10275) - **Needs to work at 3.3v!** I have this 5V model but I cut trace on the back and added a switch:
 
 ![Modified FTDI breakout](images/ftdi-basic-tracecut.jpg)
-  * [CH340/CH341](http://www.seeedstudio.com/wiki/USB_To_Uart_5V/3V3)
+
 * MAX31855 breakout
   * [Home grown](http://www.allaboutcircuits.com/projects/build-a-thermocouple-amplifier-and-custom-kicad-libraries/)
   * [Adafruit](http://www.adafruit.com/product/269)
@@ -45,10 +47,12 @@ This project is mostly software so the parts count is relatively small. You'll n
 * Computer running Linux with `avrdude`, `binutils-avr`, `gcc-avr`, `avr-libc`, and `gdb-avr` installed. It's possible to do this on Windows or Mac but that is outside the scope of this project.
 
 #### TRIAC Controller
+![Our controller connected to the box from last time](images/triac-controller-wires.jpg)
+
 This is the bread and butter of the controller. The `oven_control.c` file consist of several parts: an `oven_setup()`, `oven_setDutyCycle(percent)`, and the three ISRs to deal with different timing-critical events.  
 
 **Oven Controller Initization Function**
-```
+```c
 void oven_setup(void)
 {
     // Setup inputs and outputs
@@ -68,10 +72,10 @@ void oven_setup(void)
 }
 ```
 
-This function just sets up GPIO and interrupt conditions, as well as enabling TimerCounter2.
+This function just sets up GPIO and interrupt conditions, as well as enabling Timer/Counter2.
 
 **Output Intensity Function**
-```
+```c
 void oven_setDutyCycle(uint8_t percent)
 {
 
@@ -93,8 +97,10 @@ void oven_setDutyCycle(uint8_t percent)
 }
 ```
 
+This function controls the output power of the oven and sets the timer wait value accordingly. The `powerLUT[]` array is used to map the linear percentage scale to a non-linear curve. With a linear scale, the actual power output change between 1% and 2% or 97% to 98% is significantly less than that at 50% to 51%. This is due to the sinusoidal nature of the quarter waveform we're dimming. This remapping lookup table helps to correct that -- see [Update 1: improving the phase angle timing](http://andybrown.me.uk/2015/07/12/awreflow2/) for more info. The PROGMEM attribute places the whole array into FLASH memory instead of RAM, saving space for the actual program. This will be useful for constant string storage as well later on in the series.
+
 **Zero-Crossing Interrupt**
-```
+```c
 ISR(INT0_vect)
 {
     /* 0 is an off switch. round up or down a percentage that strays into the
@@ -134,7 +140,7 @@ ISR(INT0_vect)
 This triggers on the falling edge of pin PD2. Depending on what the global `_percent` variable is set to, it will either turn the oven full on, full off, or set the Timer/Counter2 "Output Compare Register A" to a value corresponding to the "off time" after zero-cross interrupt fires. It then clears Timer/Counter2 and starts the timer.
 
 **Timer/Counter2 Comparison Interrupt**
-```
+```c
 ISR(TIMER2_COMPA_vect)
 {
     // Turn on oven, hold it active for a min latching time before switching it off
@@ -148,7 +154,7 @@ ISR(TIMER2_COMPA_vect)
 When the output comparison value is met, this interrupt is fired and it sets the TRIAC_ACTIVE pin high and loads up the TCNT2 register so that it overflows after TRIAC_PULSE_TICKS counts later.
 
 **Timer/Counter2 Overflow Interrupt**
-```
+```c
 ISR(TIMER2_OVF_vect)
 {
     // Turn off oven
@@ -161,13 +167,11 @@ ISR(TIMER2_OVF_vect)
 
 When the timer overflows, the TRIAC_ACTIVE pin goes low and the timer turns off, waiting for an INT0_vect to repeat the process.
 
-The `powerLUT[99]` array is used to map the linear percentage scale to a non-linear curve. With a linear scale, the actual power output change between 1% and 2% or 97% to 98% is significantly less than that at 50% to 51%. This is due to the sinusoidal nature of the quarter waveform we're dimming. This remapping lookup table helps to correct that -- see [Update 1: improving the phase angle timing](http://andybrown.me.uk/2015/07/12/awreflow2/) for more info. The PROGMEM attribute places the whole array into FLASH memory instead of RAM, saving space for the actual program. This will be useful for constant string storage as well later on in the series.
-
 #### USART
 In normal C or C++ programming on a computer, functions like `assert()` and `sprintf()` can print formatted text to the terminal and help with debugging. In order to communicate with our device, we need to implement some way of printing to a terminal. The easiest way of doing that is through serial communication with the ATmega's USART and a USB-serial converter.
 
 **USART Initialization Function**
-```
+```c
 void usart_setup(uint32_t ubrr)
 {
     // Set baud rate by loading high and low bytes of ubrr into UBRR0 register
@@ -191,7 +195,7 @@ void usart_setup(uint32_t ubrr)
 In `usart.c`, there is the standard `usart_setup(uint32_t ubrr)` initialization function that enables the hardware and establishes the baud rate (bits/second) and transmission settings (8 data bits, no parity bits, 1 stop bit). This is hard-coded to 9600 baud for now in the `usart.h` file.
 
 **Print Single Byte Function**
-```
+```c
 void usart_txb(const char data)
 {
     // Wait for empty transmit buffer
@@ -205,7 +209,7 @@ void usart_txb(const char data)
 This function accepts a single byte and when the transmit buffer is empty, loads the byte into the buffer. This is the basis for the other printing functions.
 
 **Printing Helper Functions**
-```
+```c
 /*** USART Print String Function ***/
 void usart_print (const char *data)
 {
@@ -213,7 +217,7 @@ void usart_print (const char *data)
         usart_txb(*data++);
 }
 ```
-```
+```c
 /*** USART Print String Function with New Line and Carriage Return ***/
 void usart_println (const char *data)
 {
@@ -225,7 +229,7 @@ void usart_println (const char *data)
 Much like Arduino's Serial.print() and Serial.println() functions, these take a string as an argument and for each character, calls the `usart_txb()` function. `usart_println()` just has an extra step to print a new line and a carriage return.
 
 **Interrupt on Receive**
-```
+```c
 ISR(USART_RX_vect)
 {
     unsigned char ReceivedByte;
@@ -240,7 +244,7 @@ Right now there is no way to meaningfully interact with the software through the
 General delay and time comparison functions are very helpful in a lot of microcontroller applications. The `_delay()` function in `<avr/utils.h>` is helpful for small delays since it uses a while loop and `nop` instructions to do nothing for the specified amount of time. This prevents anything else from happening in the program, however. To deal with measuring longer blocks of time that allow for the program to continue, we use one of the free hardware timers and interrupts. On the ATmega328P, Timer/Counter0 is kind of gimpy and doesn't have as much functionality as Timer/Counter1 and Timer/Counter2 so it's a small triumph to be able to use it for something useful. We still have T/C1 but it would be nice to save it for something more complicated in the future.
 
 **Timer Initization Function**
-```
+```c
 void msTimer_setup(void)
 {
     // Leave everything alone in TCCR0A and just set the prescaler to Clk/8
@@ -255,7 +259,7 @@ void msTimer_setup(void)
 The first function is of course the initialization function. It sets the prescaler to 1 MHz and enables the overflow interrupt.
 
 **Return Current System Time Function**
-```
+```c
 uint32_t msTimer_millis(void)
 {
     uint32_t ms;
@@ -274,7 +278,7 @@ uint32_t msTimer_millis(void)
 The msTimer functions chain together and all eventually call this function in some way. This simply returns the value of the global `_ms_counter` variable which is updated every millisecond.
 
 **General Purpose Millisecond Delay Function**
-```
+```c
 void msTimer_delay(uint32_t waitfor)
 {
     uint32_t target;
@@ -287,7 +291,7 @@ void msTimer_delay(uint32_t waitfor)
 This is the `delay()` utility function. It accepts as an argument the amount of milliseconds you'd like it to wait for and blocks with a `while()` loop until finished. This should still only be used for short delays.
 
 **Time Difference Measurement Function**
-```
+```c
 uint32_t msTimer_deltaT(uint32_t start)
 {
     // Return difference between a starting time and now, taking into account
@@ -304,7 +308,7 @@ uint32_t msTimer_deltaT(uint32_t start)
 Measures time delta between start time and current time. Can be used for delay loops that don't block. It also accounts for wraparound -- since time is saved in a 32-bit uint32_t variable, when it reaches 0xFFFFFFFF and increments, it rolls back around to zero. This factors that in to the calculation.
 
 **Timeout Detection Function**
-```
+```c
 bool msTimer_hasTimedOut(uint32_t start,uint32_t timeout)
 {
     // Check if a timeout has been exceeded. This is designed to cope with wrap
@@ -316,7 +320,7 @@ bool msTimer_hasTimedOut(uint32_t start,uint32_t timeout)
 True or false flag thrown when checking if a certain amount of time has passed. This is used in the temperature sensor so that you can call the `read()` function at whatever speed you want but it will only update according to its timeout interval.
 
 **Timer/Counter0 Overflow Interrupt**
-```
+```c
 ISR(TIMER0_OVF_vect)
 {
     _ms_subCounter++;
@@ -328,9 +332,11 @@ ISR(TIMER0_OVF_vect)
 The ISR running the show. Very accurately increments the global `_ms_counter` variable every millisecond.
 
 #### Temperature Sensor
+![My homemade MAX31855 board](images/max31855-wires.jpg)
+
 The functions and data structures used to interface with the MAX31855 are a little different than the previous ones. I'm using a pseudo-object oriented paradigm where there is a structure named max31855 which is defined in `max31855.h`:
 
-```
+```c
 typedef struct max31855
 {
     int16_t     extTemp;        // 14-bit TC temp
@@ -344,7 +350,7 @@ typedef struct max31855
 In `main.c`, a struct and a pointer to it are created and any time the temperature needs to be read or the values need to be printed to the USART, the struct pointer is passed as an argument to the different functions.
 
 **Temperature Sensor "Object" Constructor**
-```
+```c
 max31855 *max31855_setup(void)
 {
     // Reserve some space and make sure that it's not null
@@ -390,7 +396,7 @@ max31855 *max31855_setup(void)
 This is the "constructor" and initialization function for the max31855 struct. It reserves space in memory using `malloc()` and makes sure that it's not NULL. Since there is no `sprintf()` built into the AVR libraries by default, if the condition is true, it just aborts the program by forcing it into an endless loop. It then configures GPIO and turns on the hardware SPI peripheral.
 
 **Read and Update Temperature Sensor Function**
-```
+```c
 bool max31855_readTempDone(max31855 *tempSense)
 {
     if(msTimer_hasTimedOut(tempSense->lastTempTime, tempSense->pollInterval))
@@ -469,7 +475,7 @@ bool max31855_readTempDone(max31855 *tempSense)
 Designed to only refresh at the defined polling interval, this function leans heavily on the `msTimer_hasTimedOut()` function. If the timeout has been met, it clocks the SPI bus and reads in 32 bits of data. If the reading is valid and there aren't any error bits set, it parses out the temperature (both internal reference and external thermocouple) to the nearest integer. If there is an error, the temps are set to something obviously erroneous and the appropriate status flag is set.
 
 **Status Message Helper Function**
-```
+```c
 const char *max31855_statusString(uint8_t status)
 {
     switch(status)
@@ -492,7 +498,7 @@ const char *max31855_statusString(uint8_t status)
 Based on the status code, return a string to be printed with USART.
 
 **Temperature Sensor Printing Function**
-```
+```c
 void max31855_print(max31855 *tempSense)
 {
     // max(int16_t) = "65535" + '\0'
@@ -514,7 +520,7 @@ Convert the binary temperature value to decimal using the `itoa()` function and 
 #### Putting it All Together
 The `main.c` file is just a small test file that initializes all the other parts through the `(device)_setup` command, flushes anything in the USART and then goes into an endless loop. In the loop, it fades the TRIAC drive intensity in and out and constantly tries to read the temperature. Since there's a poll interval specified in the `max31855_readTempDone()` function, it will only update and print status and temperature at that rate.
 
-```
+```c
 /*** main.c ***/
 
 #include "globals.h"
