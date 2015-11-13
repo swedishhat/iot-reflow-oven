@@ -1,4 +1,4 @@
-![Look beyond the Arduino exterior, it's a raw ATmega underneath!](images/ardpromini-thumb.jpg)
+![Look beyond the Arduino exterior, it's a raw ATmega underneath!](assets/ardpromini-thumb.jpg)
 
 # Designing the Controller for a DIY Solder Reflow Oven
 #### By [Patrick Lloyd](http://www.allaboutcircuits.com/author/patrick-lloyd)
@@ -38,7 +38,7 @@ This project is mostly software so the parts count is relatively small. You'll n
   * [CH340/CH341](http://www.seeedstudio.com/wiki/USB_To_Uart_5V/3V3)
   * [FT232RL](https://www.sparkfun.com/products/10275) - **Needs to work at 3.3v!** I have this 5V model but I cut trace on the back and added a switch:
 
-![Modified FTDI breakout](images/ftdi-basic-tracecut.jpg)
+![Modified FTDI breakout](assets/ftdi-basic-tracecut.jpg)
 
 * MAX31855 breakout
   * [Home grown](http://www.allaboutcircuits.com/projects/build-a-thermocouple-amplifier-and-custom-kicad-libraries/)
@@ -47,7 +47,7 @@ This project is mostly software so the parts count is relatively small. You'll n
 * Computer running Linux with `avrdude`, `binutils-avr`, `gcc-avr`, `avr-libc`, and `gdb-avr` installed. It's possible to do this on Windows or Mac but that is outside the scope of this project.
 
 #### TRIAC Controller
-![Our controller connected to the box from last time](images/triac-controller-wires.jpg)
+![Our controller connected to the box from last time](assets/triac-controller-wires.jpg)
 
 This is the bread and butter of the controller. The `oven_control.c` file consist of several parts: an `oven_setup()`, `oven_setDutyCycle(percent)`, and the three ISRs to deal with different timing-critical events.  
 
@@ -332,7 +332,7 @@ ISR(TIMER0_OVF_vect)
 The ISR running the show. Very accurately increments the global `_ms_counter` variable every millisecond.
 
 #### Temperature Sensor
-![My homemade MAX31855 board](images/max31855-wires.jpg)
+![My homemade MAX31855 board](assets/max31855-wires.jpg)
 
 The functions and data structures used to interface with the MAX31855 are a little different than the previous ones. I'm using a pseudo-object oriented paradigm where there is a structure named max31855 which is defined in `max31855.h`:
 
@@ -606,4 +606,10 @@ AVRDUDE_PORT=usb
 
 Once everything is to your liking, type `make` to compile and `sudo make writeflash` to upload to your board. If everything went according to plan, it should look something like this:
 
-[![Click for video!](images/video-thumb.png)](https://drive.google.com/file/d/0B3jahN8xZtrpVVhKWXJoeHd2cU0/view)
+[![Click for video!](assets/video-thumb.png)](https://drive.google.com/file/d/0B3jahN8xZtrpVVhKWXJoeHd2cU0/view)
+
+#### Conclusion
+
+The next step is to get an actual toaster in the mix and start developing feedback controls for it. We're going to get into some control theory in the next article and write some test scripts to characterize the behavior of our system. That way we can create a robust, fast, and reliable controller regardless in the face of small perturbations and varying oven types. Keep hacking away at it, and like before, all source files can be found below or [on my Github page](https://github.com/swedishhat/iot-reflow-oven)-- feel free to collaborate. Cheers.
+
+[atmega328p_2015-nov-13.zip](assets/atmega328p_2015-nov-13.zip)
