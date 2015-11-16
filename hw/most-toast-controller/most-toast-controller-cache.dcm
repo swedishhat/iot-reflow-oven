@@ -1,0 +1,13 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP MIC5353
+D 500mA LDO in 1.6mm x 1.6mm Package
+K PWR REGUL
+$ENDCMP
+#
+$CMP MIC5353-xxYMT
+D 500mA LDO in 1.6mm x 1.6mm Package
+K PWR REGUL
+$ENDCMP
+#
+#End Doc Library
