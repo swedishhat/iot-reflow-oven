@@ -142,15 +142,18 @@ const char *max31855_statusString(uint8_t status)
 void max31855_print(max31855 *tempSense)
 {
     // int16_t max = 65535, + '\0'
-    char ibuffer[6] = {0};
-    char ebuffer[6] = {0};
+    //char ibuffer[6] = {0};
+    char buffer[6] = {0};
 
-    usart_print("Status: ");
-    usart_println(max31855_statusString(tempSense->status));
+    uart0_puts("Status: ");
+    uart0_puts(max31855_statusString(tempSense->status));
+    uart0_puts("\r\n");
+    
+    uart0_puts("External Temp: ");
+    uart0_puts(itoa(tempSense->extTemp, buffer, 10));
+    uart0_puts("\r\n");
 
-    usart_print("External Temp: ");
-    usart_println(itoa(tempSense->extTemp, ibuffer, 10));
-
-    usart_print("Internal Temp: ");
-    usart_println(itoa(tempSense->intTemp, ebuffer, 10));
+    uart0_puts("Internal Temp: ");
+    uart0_puts(itoa(tempSense->intTemp, buffer, 10));
+    uart0_puts("\r\n");
 }

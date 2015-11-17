@@ -94,9 +94,10 @@ PROJECTNAME=iot-reflow-oven
 PRJSRC=$(wildcard *.c)
 
 # additional includes (e.g. -I/path/to/mydir)
-INC=-I../inc
+INC=-Iinc
 
 # libraries to link in (e.g. -lmylib)
+#LIBS=./lib/avr-uart
 LIBS=
 
 # Optimization level, 
