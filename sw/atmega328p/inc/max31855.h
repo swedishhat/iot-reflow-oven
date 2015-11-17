@@ -56,4 +56,5 @@ bool max31855_readTempDone(max31855 *tempSense);
 
 /*** Status Message Helper Function ***/
 const char *max31855_statusString(uint8_t status);
+
 #endif

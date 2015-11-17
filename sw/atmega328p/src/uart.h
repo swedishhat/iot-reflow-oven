@@ -30,4 +30,7 @@ void uart_print (const char *data);
 /*** UART Print String Function with New Line and Carriage Return ***/
 void uart_println (const char *data);
 
+/*** RX Receive ISR ***/
+ISR(USART_RX_vect)
+
 #endif

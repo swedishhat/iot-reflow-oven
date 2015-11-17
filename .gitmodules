@@ -1,0 +1,3 @@
+[submodule "sw/atmega328p/src/avr-uart"]
+	path = sw/atmega328p/lib/avr-uart
+	url = git@github.com:andygock/avr-uart.git
