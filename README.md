@@ -13,7 +13,7 @@ This is where the action is. I try to make sane commits but continue with cautio
 
 ### [doc] Documentation Files
 * __01_triac-dimmer__: [Control Your AC Mains with a Microcontroller](http://www.allaboutcircuits.com/projects/controlling-ac-mains-with-a-microcontroller-for-fun-and-profit/)
-* __02_atmega-controller__: [Designing Your Own Controller for a Solder Reflow Oven]()
+* __02_atmega-controller__: [Designing Your Own Controller for a Solder Reflow Oven](http://www.allaboutcircuits.com/projects/designing-the-controller-for-a-diy-solder-reflow-oven/)
 
 ### [sw] Software Files
 

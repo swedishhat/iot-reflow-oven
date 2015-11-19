@@ -32,7 +32,7 @@
 #define SCG_FAULT               3
 #define OC_FAULT                4
 
-#define DEFAULT_POLL_INTERVAL   1000    // Read temp probe every second
+#define DEFAULT_POLL_INTERVAL   500    // Read temp probe every 2 seconds
 
 /*** MAX31855 Device Struct ***/
 typedef struct max31855
@@ -52,7 +52,7 @@ max31855 *max31855_setup(void);
 void max31855_print(max31855 *tempSense);
 
 /*** Read and Update Temperature Sensor Function ***/
-bool max31855_readTempDone(max31855 *tempSense);
+uint8_t max31855_readTempDone(max31855 *tempSense);
 
 /*** Status Message Helper Function ***/
 const char *max31855_statusString(uint8_t status);

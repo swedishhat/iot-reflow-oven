@@ -54,8 +54,8 @@ void oven_setDutyCycle(uint8_t percent)
 
     // percentages between 1 and 99 inclusive use the lookup table to translate a linear
     // demand for power to a position on the phase angle axis
-    if(percent > 0 && percent < 100)
-        _percent = pgm_read_byte(&powerLUT[percent - 1]);
+    //if(percent > 0 && percent < 100)
+        //_percent = pgm_read_byte(&powerLUT[percent - 1]);
 
     // calculate the new counter value
     newCounter = ((TICKS_PER_HALF_CYCLE - MARGIN_TICKS - TRIAC_PULSE_TICKS) * (100 - percent)) / 100;
@@ -66,6 +66,54 @@ void oven_setDutyCycle(uint8_t percent)
     _percent = percent;
     sei();
 }
+
+// void oven_fade(int numfades)
+// {
+//     cmd_printValue("Total Cycles", numfades, ID_ON);
+//
+//
+//     int j = 0;
+//     int dir = 1;
+//
+//     char buffer[8];
+//
+//
+//     for(j = 0; j < numfades; j++)
+//     {
+//         // Debugging info on index j
+//         uart0_puts(RETURN_NEWLINE);
+//         uart0_puts("J: ");
+//         itoa(j, buffer, 10);
+//         uart0_puts(buffer);
+//         uart0_puts(RETURN_NEWLINE);
+//
+//         uart0_puts("I: ");
+//         uart0_puts(RETURN_NEWLINE);
+//
+//         // The fader loop
+//         int i = 0;
+//         for (i = 0; i > -1; i = i + dir)
+//         {
+//             // Debugging info on index i
+//             itoa(i, buffer, 10);
+//             uart0_puts(buffer);
+//             uart0_puts(", ");
+//
+//             // Set power output
+//             oven_setDutyCycle(i);
+//
+//             // Switch direction at peak and pause
+//             if (i == 100)
+//             {
+//                 dir = -1;
+//                 uart0_puts(RETURN_NEWLINE);
+//                 uart0_puts(RETURN_NEWLINE);
+//             }
+//             msTimer_delay(10);
+//         }
+//     }
+// }
+
 
 /*** Zero-Crossing External ISR ***/
 ISR(INT0_vect)

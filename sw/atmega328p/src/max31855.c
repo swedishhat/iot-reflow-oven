@@ -45,7 +45,7 @@ max31855 *max31855_setup(void)
 }
 
 /*** Read and Update Temperature Sensor Function ***/
-bool max31855_readTempDone(max31855 *tempSense)
+uint8_t max31855_readTempDone(max31855 *tempSense)
 {
     if(msTimer_hasTimedOut(tempSense->lastTempTime, tempSense->pollInterval))
     {
@@ -58,7 +58,7 @@ bool max31855_readTempDone(max31855 *tempSense)
         // clock 4 bytes from the SPI bus
         for(i = 0; i < 4; i++)
         {
-            SPDR = 0;                           // start "transmitting" (actually just clocking)
+            SPDR = 0;                           // start clocking out zeros
             while(!(SPSR & (1 << SPIF)));       // wait until transfer ends
 
             rawBits <<= 8;                      // make space for the byte
@@ -114,9 +114,9 @@ bool max31855_readTempDone(max31855 *tempSense)
 
         // Update the timestamp and let the read loop unblock
         tempSense->lastTempTime = msTimer_millis();
-        return true;
+        return TRUE;
     }
-    return false;
+    return FALSE;
 }
 
 /*** Status Message Helper Function ***/
@@ -125,15 +125,15 @@ const char *max31855_statusString(uint8_t status)
     switch(status)
     {
         case UNKNOWN:
-            return "UNKNOWN";
+            return "MAX UNKNOWN";
         case OK:
-            return "OK!";
+            return "MAX OK";
         case SCV_FAULT:
-            return "SCV_FAULT";
+            return "MAX SCV_FAULT";
         case SCG_FAULT:
-            return "SCG_FAULT";
+            return "MAX SCG_FAULT";
         case OC_FAULT:
-            return "OC_FAULT";
+            return "MAX OC_FAULT";
     }
     return "Err";
 }
@@ -148,7 +148,7 @@ void max31855_print(max31855 *tempSense)
     uart0_puts("Status: ");
     uart0_puts(max31855_statusString(tempSense->status));
     uart0_puts("\r\n");
-    
+
     uart0_puts("External Temp: ");
     uart0_puts(itoa(tempSense->extTemp, buffer, 10));
     uart0_puts("\r\n");

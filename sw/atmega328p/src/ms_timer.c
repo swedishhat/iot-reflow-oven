@@ -40,7 +40,7 @@ void msTimer_delay(uint32_t waitfor)
 }
 
 /*** Timeout Detection Function ***/
-bool msTimer_hasTimedOut(uint32_t start,uint32_t timeout)
+uint8_t msTimer_hasTimedOut(uint32_t start,uint32_t timeout)
 {
     // Check if a timeout has been exceeded. This is designed to cope with wrap
     // around

@@ -19,6 +19,6 @@ void msTimer_setup(void);
 uint32_t msTimer_deltaT(uint32_t start);
 
 /*** Timeout Detection Function ***/
-bool msTimer_hasTimedOut(uint32_t start,uint32_t timeout);
+uint8_t msTimer_hasTimedOut(uint32_t start,uint32_t timeout);
 
 #endif
