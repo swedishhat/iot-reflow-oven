@@ -54,8 +54,8 @@ void oven_setDutyCycle(uint8_t percent)
 
     // percentages between 1 and 99 inclusive use the lookup table to translate a linear
     // demand for power to a position on the phase angle axis
-    //if(percent > 0 && percent < 100)
-        //_percent = pgm_read_byte(&powerLUT[percent - 1]);
+    if(percent > 0 && percent < 100)
+        _percent = pgm_read_byte(&powerLUT[percent - 1]);
 
     // calculate the new counter value
     newCounter = ((TICKS_PER_HALF_CYCLE - MARGIN_TICKS - TRIAC_PULSE_TICKS) * (100 - percent)) / 100;

@@ -154,14 +154,14 @@ void cmd_processUART(max31855 *tempSense)
         {
             // Reset to 0, ready to go again
             _data_count = 0;
-            uart0_puts(RETURN_NEWLINE);
+            //uart0_puts(RETURN_NEWLINE);
 
             cmd_copyCommand();
             cmd_processCommand(tempSense);
-            cmd_uartOK();
+            //cmd_uartOK();
         }
         else _data_count++;
 
-        uart0_putc( (unsigned char)c );
+        //uart0_putc( (unsigned char)c );
     }
 }

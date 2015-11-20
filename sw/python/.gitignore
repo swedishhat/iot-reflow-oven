@@ -2,6 +2,9 @@
 ## Python Things to Ignore ##
 #############################
 
+# My Folders
+sandbox/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

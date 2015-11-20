@@ -35,7 +35,7 @@ extern volatile uint8_t _percent;
 extern volatile uint8_t _counter_t2;
 
 void oven_setDutyCycle(uint8_t percent);
-void oven_fade(int numfades);
+//void oven_fade(int numfades);
 void oven_setup(void);
 
 #endif
