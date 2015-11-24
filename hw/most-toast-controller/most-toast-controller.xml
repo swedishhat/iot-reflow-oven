@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>/home/jimbo/Desktop/iot-reflow-oven/hw/most-toast-controller/most-toast-controller.sch</source>
+    <date>Tue 24 Nov 2015 02:02:44 AM EST</date>
+    <tool>Eeschema 0.201511221031+6327~38~ubuntu15.04.1-stable</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>most-toast-controller.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="2" name="/ATmega328P Controller/" tstamps="/56450DBB/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>controller.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="3" name="/MAX31855 Temp Sensor/" tstamps="/56450D3A/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>temp-sense.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="4" name="/Power Regulation/" tstamps="/564DC657/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>power.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="P3">
+      <value>ESP8266</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_2x04</footprint>
+      <libsource lib="conn" part="CONN_02X04"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56450EE0</tstamp>
+    </comp>
+    <comp ref="P2">
+      <value>OVEN_GPIO</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x04</footprint>
+      <libsource lib="conn" part="CONN_01X04"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56450F83</tstamp>
+    </comp>
+    <comp ref="P5">
+      <value>DTR</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x01</footprint>
+      <libsource lib="conn" part="CONN_01X01"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>564C66D5</tstamp>
+    </comp>
+    <comp ref="P4">
+      <value>ICSP</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x04</footprint>
+      <libsource lib="conn" part="CONN_01X04"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>564D2DE5</tstamp>
+    </comp>
+    <comp ref="P1">
+      <value>ICSP_POWER</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x02</footprint>
+      <libsource lib="conn" part="CONN_01X02"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>564D65A7</tstamp>
+    </comp>
+    <comp ref="P6">
+      <value>TC_CONN</value>
+      <footprint>tc-conns:OSTTE020104</footprint>
+      <libsource lib="conn" part="CONN_01X02"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5653B1E8</tstamp>
+    </comp>
+    <comp ref="C3">
+      <value>0.1uF</value>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/ATmega328P Controller/" tstamps="/56450DBB/"/>
+      <tstamp>564A2125</tstamp>
+    </comp>
+    <comp ref="C1">
+      <value>0.1uF</value>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/ATmega328P Controller/" tstamps="/56450DBB/"/>
+      <tstamp>564A2794</tstamp>
+    </comp>
+    <comp ref="Y1">
+      <value>8MHz</value>
+      <footprint>Crystals:Crystal_HC49-SD_SMD</footprint>
+      <libsource lib="device" part="Crystal"/>
+      <sheetpath names="/ATmega328P Controller/" tstamps="/56450DBB/"/>
+      <tstamp>564A2978</tstamp>
+    </comp>
+    <comp ref="C2">
+      <value>18pF</value>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/ATmega328P Controller/" tstamps="/56450DBB/"/>
+      <tstamp>564A2E83</tstamp>
+    </comp>
+    <comp ref="C4">
+      <value>18pF</value>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/ATmega328P Controller/" tstamps="/56450DBB/"/>
+      <tstamp>564A33AB</tstamp>
+    </comp>
+    <comp ref="R1">
+      <value>330</value>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/ATmega328P Controller/" tstamps="/56450DBB/"/>
+      <tstamp>564A52CE</tstamp>
+    </comp>
+    <comp ref="D1">
+      <value>GRN</value>
+      <libsource lib="device" part="LED"/>
+      <sheetpath names="/ATmega328P Controller/" tstamps="/56450DBB/"/>
+      <tstamp>564A5320</tstamp>
+    </comp>
+    <comp ref="SW1">
+      <value>SW_PUSH</value>
+      <footprint>Buttons_Switches_SMD:SW_SPST_FSMSM</footprint>
+      <libsource lib="device" part="SW_PUSH"/>
+      <sheetpath names="/ATmega328P Controller/" tstamps="/56450DBB/"/>
+      <tstamp>564AFF35</tstamp>
+    </comp>
+    <comp ref="R2">
+      <value>10K</value>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/ATmega328P Controller/" tstamps="/56450DBB/"/>
+      <tstamp>564AFFEA</tstamp>
+    </comp>
+    <comp ref="C5">
+      <value>0.1uF</value>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/ATmega328P Controller/" tstamps="/56450DBB/"/>
+      <tstamp>564B00F4</tstamp>
+    </comp>
+    <comp ref="IC1">
+      <value>ATMEGA328P-M</value>
+      <footprint>MLF/QFN32</footprint>
+      <libsource lib="atmel" part="ATMEGA328P-M"/>
+      <sheetpath names="/ATmega328P Controller/" tstamps="/56450DBB/"/>
+      <tstamp>56540839</tstamp>
+    </comp>
+    <comp ref="U1">
+      <value>MAX31855KASA</value>
+      <footprint>Housings_SOIC:SOIC-8_3.9x4.9mm_Pitch1.27mm</footprint>
+      <libsource lib="interface" part="MAX31855KASA"/>
+      <sheetpath names="/MAX31855 Temp Sensor/" tstamps="/56450D3A/"/>
+      <tstamp>56450D43</tstamp>
+    </comp>
+    <comp ref="L1">
+      <value>INDUCTOR</value>
+      <footprint>Capacitors_SMD:C_0805_HandSoldering</footprint>
+      <libsource lib="device" part="INDUCTOR"/>
+      <sheetpath names="/MAX31855 Temp Sensor/" tstamps="/56450D3A/"/>
+      <tstamp>564BAB3D</tstamp>
+    </comp>
+    <comp ref="C6">
+      <value>10nF</value>
+      <footprint>Capacitors_SMD:C_0805_HandSoldering</footprint>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/MAX31855 Temp Sensor/" tstamps="/56450D3A/"/>
+      <tstamp>564BAB96</tstamp>
+    </comp>
+    <comp ref="L2">
+      <value>INDUCTOR</value>
+      <footprint>Capacitors_SMD:C_0805_HandSoldering</footprint>
+      <libsource lib="device" part="INDUCTOR"/>
+      <sheetpath names="/MAX31855 Temp Sensor/" tstamps="/56450D3A/"/>
+      <tstamp>564BB062</tstamp>
+    </comp>
+    <comp ref="C7">
+      <value>0.1uF</value>
+      <footprint>Capacitors_SMD:C_0805_HandSoldering</footprint>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/MAX31855 Temp Sensor/" tstamps="/56450D3A/"/>
+      <tstamp>564BB456</tstamp>
+    </comp>
+    <comp ref="C9">
+      <value>4.7uF</value>
+      <footprint>Capacitors_SMD:C_0805_HandSoldering</footprint>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/Power Regulation/" tstamps="/564DC657/"/>
+      <tstamp>564DFFBA</tstamp>
+    </comp>
+    <comp ref="C8">
+      <value>4.7uF</value>
+      <footprint>Capacitors_SMD:C_0805_HandSoldering</footprint>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/Power Regulation/" tstamps="/564DC657/"/>
+      <tstamp>564E0063</tstamp>
+    </comp>
+    <comp ref="U2">
+      <value>AP2114H-3.3TRG1</value>
+      <footprint>TO_SOT_Packages_SMD:SOT-223</footprint>
+      <libsource lib="most-toast-controller-cache" part="AP2114H-3.3TRG1"/>
+      <sheetpath names="/Power Regulation/" tstamps="/564DC657/"/>
+      <tstamp>5653FBCC</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="most-toast-controller-cache" part="AP2114H-3.3TRG1">
+      <description>1A LOW NOISE CMOS LDO REGULATOR</description>
+      <docs>http://www.diodes.com/_files/datasheets/AP2114.pdf</docs>
+      <footprints>
+        <fp>SOT*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">AP2114H-3.3TRG1</field>
+        <field name="Footprint">SOT-23</field>
+      </fields>
+      <pins>
+        <pin num="1" name="GND" type="power_in"/>
+        <pin num="2" name="VOUT" type="power_out"/>
+        <pin num="3" name="VIN" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="atmel" part="ATMEGA168A-M">
+      <aliases>
+        <alias>ATMEGA48A-M</alias>
+        <alias>ATMEGA48PA-M</alias>
+        <alias>ATMEGA88A-M</alias>
+        <alias>ATMEGA88PA-M</alias>
+        <alias>ATMEGA168PA-M</alias>
+        <alias>ATMEGA328-M</alias>
+        <alias>ATMEGA328P-M</alias>
+      </aliases>
+      <description>QFN/MLF32, 16k Flash, 1kB SRAM, 512B EEPROM</description>
+      <docs>http://www.atmel.com/images/atmel-8271-8-bit-avr-microcontroller-atmega48a-48pa-88a-88pa-168a-168pa-328-328p_datasheet.pdf</docs>
+      <fields>
+        <field name="Reference">IC</field>
+        <field name="Value">ATMEGA168A-M</field>
+        <field name="Footprint">MLF/QFN32</field>
+      </fields>
+      <pins>
+        <pin num="1" name="(PCINT19/OC2B/INT1)PD3" type="BiDi"/>
+        <pin num="2" name="(PCINT20/XCK/T0)PD4" type="BiDi"/>
+        <pin num="3" name="GND" type="power_in"/>
+        <pin num="4" name="VCC" type="power_in"/>
+        <pin num="5" name="GND" type="power_in"/>
+        <pin num="6" name="VCC" type="power_in"/>
+        <pin num="7" name="(PCINT6/XTAL1/TOSC1)PB6" type="BiDi"/>
+        <pin num="8" name="(PCINT7/XTAL2/TOSC2)PB7" type="BiDi"/>
+        <pin num="9" name="(PCINT21/OC0B/T1)PD5" type="BiDi"/>
+        <pin num="10" name="(PCINT22/OC0A/AIN0)PD6" type="BiDi"/>
+        <pin num="11" name="(PCINT23/AIN1)PD7" type="BiDi"/>
+        <pin num="12" name="(PCINT0/CLKO/ICP1)PB0" type="BiDi"/>
+        <pin num="13" name="(PCINT1/OC1A)PB1" type="BiDi"/>
+        <pin num="14" name="(PCINT2/OC1B/~SS~)PB2" type="BiDi"/>
+        <pin num="15" name="(PCINT3/OC2A/MOSI)PB3" type="BiDi"/>
+        <pin num="16" name="(PCINT4/MISO)PB4" type="BiDi"/>
+        <pin num="17" name="(PCINT5/SCK)PB5" type="BiDi"/>
+        <pin num="18" name="AVCC" type="power_in"/>
+        <pin num="19" name="ADC6" type="input"/>
+        <pin num="20" name="AREF" type="BiDi"/>
+        <pin num="21" name="GND" type="power_in"/>
+        <pin num="22" name="ADC7" type="input"/>
+        <pin num="23" name="(PCINT8/ADC0)PC0" type="BiDi"/>
+        <pin num="24" name="(PCINT9/ADC1)PC1" type="BiDi"/>
+        <pin num="25" name="(PCINT10/ADC2)PC2" type="BiDi"/>
+        <pin num="26" name="(PCINT11/ADC3)PC3" type="BiDi"/>
+        <pin num="27" name="(PCINT12/SDA/ADC4)PC4" type="BiDi"/>
+        <pin num="28" name="(PCINT13/SCL/ADC5)PC5" type="BiDi"/>
+        <pin num="29" name="(PCINT14/~RESET~)PC6" type="BiDi"/>
+        <pin num="30" name="(PCINT16/RXD)PD0" type="BiDi"/>
+        <pin num="31" name="(PCINT17/TXD)PD1" type="BiDi"/>
+        <pin num="32" name="(PCINT18/INT0)PD2" type="BiDi"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="C">
+      <description>Unpolarized capacitor</description>
+      <footprints>
+        <fp>C?</fp>
+        <fp>C_????_*</fp>
+        <fp>C_????</fp>
+        <fp>SMD*_c</fp>
+        <fp>Capacitor*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="conn" part="CONN_01X01">
+      <description>Connector 01x01</description>
+      <footprints>
+        <fp>Pin_Header_Straight_1X01</fp>
+        <fp>Pin_Header_Angled_1X01</fp>
+        <fp>Socket_Strip_Straight_1X01</fp>
+        <fp>Socket_Strip_Angled_1X01</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">CONN_01X01</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="conn" part="CONN_01X02">
+      <description>Connector 01x02</description>
+      <footprints>
+        <fp>Pin_Header_Straight_1X02</fp>
+        <fp>Pin_Header_Angled_1X02</fp>
+        <fp>Socket_Strip_Straight_1X02</fp>
+        <fp>Socket_Strip_Angled_1X02</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">CONN_01X02</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="conn" part="CONN_01X04">
+      <description>Connector 01x04</description>
+      <footprints>
+        <fp>Pin_Header_Straight_1X04</fp>
+        <fp>Pin_Header_Angled_1X04</fp>
+        <fp>Socket_Strip_Straight_1X04</fp>
+        <fp>Socket_Strip_Angled_1X04</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">CONN_01X04</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+        <pin num="3" name="P3" type="passive"/>
+        <pin num="4" name="P4" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="conn" part="CONN_02X04">
+      <description>Connector 02x04</description>
+      <footprints>
+        <fp>Pin_Header_Straight_2X04</fp>
+        <fp>Pin_Header_Angled_2X04</fp>
+        <fp>Socket_Strip_Straight_2X04</fp>
+        <fp>Socket_Strip_Angled_2X04</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">CONN_02X04</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+        <pin num="3" name="P3" type="passive"/>
+        <pin num="4" name="P4" type="passive"/>
+        <pin num="5" name="P5" type="passive"/>
+        <pin num="6" name="P6" type="passive"/>
+        <pin num="7" name="P7" type="passive"/>
+        <pin num="8" name="P8" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="Crystal">
+      <description>Two pin crystal</description>
+      <footprints>
+        <fp>Crystal_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">Y</field>
+        <field name="Value">Crystal</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="INDUCTOR">
+      <fields>
+        <field name="Reference">L</field>
+        <field name="Value">INDUCTOR</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="LED">
+      <footprints>
+        <fp>LED-3MM</fp>
+        <fp>LED-5MM</fp>
+        <fp>LED-10MM</fp>
+        <fp>LED-0603</fp>
+        <fp>LED-0805</fp>
+        <fp>LED-1206</fp>
+        <fp>LEDV</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">LED</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="interface" part="MAX31855KASA">
+      <aliases>
+        <alias>MAX31855JASA</alias>
+        <alias>MAX31855NASA</alias>
+        <alias>MAX31855SASA</alias>
+        <alias>MAX31855TASA</alias>
+        <alias>MAX31855EASA</alias>
+        <alias>MAX31855RASA</alias>
+      </aliases>
+      <description>Cold Junction K-type Termocouple Interface, SPI, SO8</description>
+      <docs>http://datasheets.maximintegrated.com/en/ds/MAX31855.pdf</docs>
+      <footprints>
+        <fp>SO*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">MAX31855KASA</field>
+        <field name="Footprint">SO-8</field>
+      </fields>
+      <pins>
+        <pin num="1" name="GND" type="power_in"/>
+        <pin num="2" name="T-" type="passive"/>
+        <pin num="3" name="T+" type="passive"/>
+        <pin num="4" name="VCC" type="power_in"/>
+        <pin num="5" name="SCK" type="input"/>
+        <pin num="6" name="~CS~" type="input"/>
+        <pin num="7" name="SO" type="output"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="R">
+      <description>Resistor</description>
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="SW_PUSH">
+      <description>Button</description>
+      <fields>
+        <field name="Reference">SW</field>
+        <field name="Value">SW_PUSH</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="conn">
+      <uri>/home/jimbo/Projects/kicad-contrib/kicad-library/library/conn.lib</uri>
+    </library>
+    <library logical="device">
+      <uri>/home/jimbo/Projects/kicad-contrib/kicad-library/library/device.lib</uri>
+    </library>
+    <library logical="interface">
+      <uri>/home/jimbo/Projects/kicad-contrib/kicad-library/library/interface.lib</uri>
+    </library>
+    <library logical="atmel">
+      <uri>/home/jimbo/Projects/kicad-contrib/kicad-library/library/atmel.lib</uri>
+    </library>
+    <library logical="most-toast-controller-cache">
+      <uri>/home/jimbo/Desktop/iot-reflow-oven/hw/most-toast-controller/most-toast-controller-cache.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="/ATmega328P Controller/~RESET">
+      <node ref="SW1" pin="1"/>
+      <node ref="P4" pin="1"/>
+      <node ref="R2" pin="2"/>
+      <node ref="C5" pin="1"/>
+      <node ref="P3" pin="5"/>
+      <node ref="IC1" pin="29"/>
+    </net>
+    <net code="2" name="/ATmega328P Controller/USART_RX">
+      <node ref="P3" pin="1"/>
+      <node ref="IC1" pin="30"/>
+    </net>
+    <net code="3" name="/ATmega328P Controller/USART_TX">
+      <node ref="P3" pin="8"/>
+      <node ref="IC1" pin="31"/>
+    </net>
+    <net code="4" name="/ATmega328P Controller/GPI">
+      <node ref="IC1" pin="9"/>
+      <node ref="P3" pin="6"/>
+    </net>
+    <net code="5" name="/ATmega328P Controller/GPO">
+      <node ref="P3" pin="4"/>
+      <node ref="IC1" pin="2"/>
+    </net>
+    <net code="6" name="/ATmega328P Controller/TRIAC_ACTIVE">
+      <node ref="IC1" pin="1"/>
+      <node ref="P2" pin="4"/>
+    </net>
+    <net code="7" name="/ATmega328P Controller/ZERO_CROSS">
+      <node ref="IC1" pin="32"/>
+      <node ref="P2" pin="3"/>
+    </net>
+    <net code="8" name="/MAX31855 Temp Sensor/TC+">
+      <node ref="L1" pin="2"/>
+      <node ref="P6" pin="2"/>
+    </net>
+    <net code="9" name="/MAX31855 Temp Sensor/TC-">
+      <node ref="L2" pin="2"/>
+      <node ref="P6" pin="1"/>
+    </net>
+    <net code="10" name="/ATmega328P Controller/USART_DTR">
+      <node ref="C5" pin="2"/>
+      <node ref="P5" pin="1"/>
+    </net>
+    <net code="11" name="GND">
+      <node ref="C1" pin="2"/>
+      <node ref="U1" pin="1"/>
+      <node ref="IC1" pin="21"/>
+      <node ref="IC1" pin="3"/>
+      <node ref="IC1" pin="5"/>
+      <node ref="C7" pin="2"/>
+      <node ref="C3" pin="2"/>
+      <node ref="P2" pin="1"/>
+      <node ref="P1" pin="2"/>
+      <node ref="P3" pin="2"/>
+      <node ref="D1" pin="1"/>
+      <node ref="U2" pin="1"/>
+      <node ref="C9" pin="2"/>
+      <node ref="C2" pin="2"/>
+      <node ref="C8" pin="2"/>
+      <node ref="C4" pin="2"/>
+      <node ref="SW1" pin="2"/>
+    </net>
+    <net code="12" name="/MAX31855 Temp Sensor/MAX_~CS">
+      <node ref="IC1" pin="14"/>
+      <node ref="U1" pin="6"/>
+    </net>
+    <net code="13" name="+3V3">
+      <node ref="C1" pin="1"/>
+      <node ref="R2" pin="1"/>
+      <node ref="C9" pin="1"/>
+      <node ref="U2" pin="2"/>
+      <node ref="P1" pin="1"/>
+      <node ref="IC1" pin="6"/>
+      <node ref="IC1" pin="4"/>
+      <node ref="C7" pin="1"/>
+      <node ref="U1" pin="4"/>
+      <node ref="P3" pin="3"/>
+      <node ref="IC1" pin="18"/>
+      <node ref="P3" pin="7"/>
+      <node ref="P2" pin="2"/>
+    </net>
+    <net code="14" name="/MAX31855 Temp Sensor/MAX_SCK">
+      <node ref="U1" pin="5"/>
+      <node ref="IC1" pin="17"/>
+      <node ref="P4" pin="4"/>
+      <node ref="R1" pin="1"/>
+    </net>
+    <net code="15" name="/MAX31855 Temp Sensor/MAX_MISO">
+      <node ref="IC1" pin="16"/>
+      <node ref="P4" pin="3"/>
+      <node ref="U1" pin="7"/>
+    </net>
+    <net code="16" name="/ATmega328P Controller/SPI_MOSI">
+      <node ref="P4" pin="2"/>
+      <node ref="IC1" pin="15"/>
+    </net>
+    <net code="17" name="Net-(C6-Pad1)">
+      <node ref="C6" pin="1"/>
+      <node ref="L1" pin="1"/>
+      <node ref="U1" pin="3"/>
+    </net>
+    <net code="18" name="Net-(C6-Pad2)">
+      <node ref="U1" pin="2"/>
+      <node ref="C6" pin="2"/>
+      <node ref="L2" pin="1"/>
+    </net>
+    <net code="19" name="Net-(IC1-Pad10)">
+      <node ref="IC1" pin="10"/>
+    </net>
+    <net code="20" name="Net-(C2-Pad1)">
+      <node ref="Y1" pin="2"/>
+      <node ref="C2" pin="1"/>
+      <node ref="IC1" pin="7"/>
+    </net>
+    <net code="21" name="Net-(C4-Pad1)">
+      <node ref="C4" pin="1"/>
+      <node ref="Y1" pin="1"/>
+      <node ref="IC1" pin="8"/>
+    </net>
+    <net code="22" name="Net-(IC1-Pad22)">
+      <node ref="IC1" pin="22"/>
+    </net>
+    <net code="23" name="Net-(IC1-Pad19)">
+      <node ref="IC1" pin="19"/>
+    </net>
+    <net code="24" name="Net-(IC1-Pad28)">
+      <node ref="IC1" pin="28"/>
+    </net>
+    <net code="25" name="Net-(IC1-Pad27)">
+      <node ref="IC1" pin="27"/>
+    </net>
+    <net code="26" name="Net-(IC1-Pad26)">
+      <node ref="IC1" pin="26"/>
+    </net>
+    <net code="27" name="Net-(C3-Pad1)">
+      <node ref="IC1" pin="20"/>
+      <node ref="C3" pin="1"/>
+    </net>
+    <net code="28" name="Net-(IC1-Pad25)">
+      <node ref="IC1" pin="25"/>
+    </net>
+    <net code="29" name="Net-(IC1-Pad24)">
+      <node ref="IC1" pin="24"/>
+    </net>
+    <net code="30" name="Net-(IC1-Pad23)">
+      <node ref="IC1" pin="23"/>
+    </net>
+    <net code="31" name="Net-(IC1-Pad13)">
+      <node ref="IC1" pin="13"/>
+    </net>
+    <net code="32" name="Net-(IC1-Pad12)">
+      <node ref="IC1" pin="12"/>
+    </net>
+    <net code="33" name="Net-(IC1-Pad11)">
+      <node ref="IC1" pin="11"/>
+    </net>
+    <net code="34" name="Net-(D1-Pad2)">
+      <node ref="R1" pin="2"/>
+      <node ref="D1" pin="2"/>
+    </net>
+    <net code="35" name="+BATT">
+      <node ref="U2" pin="3"/>
+      <node ref="C8" pin="1"/>
+    </net>
+  </nets>
+</export>

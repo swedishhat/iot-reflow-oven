@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name tc-conns)(type KiCad)(uri "$(KIPRJMOD)/tc-conns.pretty")(options "")(descr ""))
+)
