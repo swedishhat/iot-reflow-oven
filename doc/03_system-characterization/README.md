@@ -1,11 +1,16 @@
 # Finding the Natural Response of a Thermal System using Python's Scientific Toolbox
 
 ## Introduction
-I'm a big fan of the [Embedded.FM](http://embedded.fm/) podcast and recently listened to Chris and Elecia White interview a guy named Matt Berggren. It was a great interview but at one point, Matt says something to the effect of "school taught me matricies and differential equations which I haven't used since..."
+I'm a big fan of the [Embedded.FM](http://embedded.fm/) podcast and recently listened to Chris and Elecia White [interview a guy named Matt Berggren](http://embedded.fm/episodes/129). It was a great interview but at one point, Matt says something to the effect of "school taught me matricies and differential equations which I haven't used since..."
 
-I see this sort of sentiment all over the place. For the most part, unless you are in academia or very cutting edge R&D, the really technical aspects of engineering can be simplified to rules of thumb and abstracted away. A good engineer will design to 80%, not fiddle with minutiae, and iterate until the design hits the desired spec. This article is not necesarily about quickly solving an engineering problem but peeling away the layers for a fuller understanding of the world you're trying to design in.
+I see this sort of sentiment all over the place. For the most part, unless you are in academia or very cutting edge R&D, the really technical aspects of engineering can be simplified to rules of thumb and abstracted away. A good engineer will design to 80%, not fiddle with minutiae, and iterate until the design hits the desired spec. This article is not necesarily about quickly solving an engineering problem but peeling away the layers for a fuller understanding of the world we're trying to design in.
 
-This article is a side note of the oven controller project I am developing in my other tutorials. Using a simple Python script to control the oven power and log the temperature data, we can create a file to analyze certain aspects of the oven, namely the natural response. This article is here to fill in some gaps between the theory behind the project and the implementation using a microcontroller. It's not all about circuits, but it's still pretty dang interesting.
+This article is a side note of the oven controller project I am developing in my other tutorials:
+
+1. [Control Your AC Mains with a Microcontroller](http://www.allaboutcircuits.com/projects/controlling-ac-mains-with-a-microcontroller-for-fun-and-profit/)
+2. [Design Your Own Controller for a Solder Reflow Oven](http://www.allaboutcircuits.com/projects/designing-the-controller-for-a-diy-solder-reflow-oven/)
+
+Using a simple Python script to control the oven power and log the temperature data, we can create a data file to analyze the temperature of the oven over time. Another Python script will help us determine certain properties of the oven in order to get the natural response. This article is here to fill in some gaps between the theory behind the project and the implementation using a microcontroller. It's not all about circuits, but it's still pretty cool stuff.
 
 ## What You Need
 
@@ -58,6 +63,8 @@ T(t)= T_0\cdot e^{-t/\tau} + T_{a}
 Now that we have an equation, we can use Python to automate the collection of temperature data and then smack it around using the SciPy optimization toolbox to get the values that fill up the equation.
 
 ## The Software
+
+If you're new to Python or scientific computing, I'd recommend giving [Anaconda](https://www.continuum.io/why-anaconda) from Continuum a shot. I don't have any association with them (and neither does AAC as far as I know) but it has some cool stuff in it. It's a Python distribution that provides support for all the scientific libraries, virtual environements, package management, IDE, and some other nice-to-haves. I'm using the Python 3.5 version.
 
 There are three "moving parts" to this:
 * A working oven controller that can interpret UART commands
@@ -374,3 +381,4 @@ The actual curve fitting is done with `popt, pcov = curve_fit(exponential, np.ar
 The script prints out the fitted equation and then plots the data as well as the estimated line.
 
 ## Conclusion
+
