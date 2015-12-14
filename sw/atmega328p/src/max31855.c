@@ -3,16 +3,15 @@
 #include "globals.h"
 
 /*** Temperature Sensor "Object" Constructor ***/
-max31855 *max31855_setup(void)
+max31855 max31855_setup(void)
 {
     // Reserve some space and make sure that it's not null
-    max31855 *tempSense = malloc(sizeof(max31855));
-    assert(tempSense != NULL);
+    max31855 tempSense;
 
     // Initilaize struct
-    tempSense->extTemp = 0;
-    tempSense->intTemp = 0;
-    tempSense->status = UNKNOWN;
+    tempSense.extTemp = 0;
+    tempSense.intTemp = 0;
+    tempSense.status = UNKNOWN;
     // Not sure why Andy Brown makes his last temp time start at 0xFFFFD8EF but
     // it works... Maybe it's to test timer0 wrap around / guarantee causality:
     // https://github.com/andysworkshop/awreflow2/blob/master/atmega8l/TemperatureSensor.h
