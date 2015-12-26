@@ -13,18 +13,18 @@ typedef enum
     GET_GAIN_I,     // ggi
     GET_GAIN_D,     // ggd
 
-    SET_OVEN_POWER, // sop=
-    SET_GAIN_P,     // sgp=
-    SET_GAIN_I,     // sgi=
-    SET_GAIN_D      // sgd=
+    SET_OVEN_POWER, // sop=###
+    SET_GAIN_P,     // sgp=###
+    SET_GAIN_I,     // sgi=###
+    SET_GAIN_D      // sgd=###
 } UARTCommand;
 
-typedef struct SysMessage
+typedef struct CtrlCmd
 {
     uint8_t hasValue;
     UARTCommand ucmd;
     int16_t value;
-} Command;
+} CtrlCmd;
 
 
 #define CHAR_NEWLINE    '\n'

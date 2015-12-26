@@ -57,7 +57,7 @@ static Command cmd_processCommand(void)
     char tmpData[8] = {0};
 
     // Put it on the stack!!
-    Command cc;
+    CtrlCmd cc;
     cc.hasValue = FALSE;
     cc.value = 0;
     cc.ucmd = NO_COMMAND;
@@ -77,41 +77,16 @@ static Command cmd_processCommand(void)
 
     if(strcasestr(_command_in, "gst") != NULL)
         cc.ucmd = GET_MAX_STATUS;
-
-    if(strcasestr(_command_in, "sgp") != NULL)
-        cc.ucmd = GET_GAIN_P;
-
-    if(strcasestr(_command_in, "sgi") != NULL)
-        cc.ucmd = GET_GAIN_I;
-
-    if(strcasestr(_command_in, "sgd") != NULL)
-        cc.ucmd = GET_GAIN_D;
-
+    
     if(strcasestr(_command_in, "sop") != NULL)
+    {
         cc.hasValue = TRUE;
         cc.ucmd = SET_POWER;
         cc.value = cmd_parseAssignment(tmpData);
-
-
-        //if(strcasestr(_command_in, "p") != NULL)
-        //{
-        //    if(tmpcmd >= 0 && tmpcmd <= 100)
-        //        oven_setDutyCycle(tmpcmd);
-        //}
-    if(strcasestr(_command_in, "sgp") != NULL)
-    if(strcasestr(_command_in, "sgi") != NULL)
-    if(strcasestr(_command_in, "sgd") != NULL)
-
-
-    GET_GAIN_P,
-    GET_GAIN_I,
-    GET_GAIN_D,
-
-    SET_OVEN_POWER,
-    SET_GAIN_P,
-    SET_GAIN_I,
-    SET_GAIN_D
-
+    }
+    
+    // Definitely a lot more CtrlCmd operations but I want to wait until
+    // static implemetation works (well enough)
     return cc
 }
 

@@ -30,18 +30,19 @@ int main(void)
 
 
     // "Hello World" startup message
-    uart0_puts("Hot Toaster Action");
-    uart0_puts_P(RETURN_NEWLINE);
-    uart0_puts_P("-----");
+    uart0_puts_P("Hot Toaster Action\n");
+    uart0_puts_P("------------------\n");
     uart_puts_P(RETURN_NEWLINE);
-
-    uart0_puts_P("AVR UART");
-    uart0_puts_P(RETURN_NEWLINE);
-    uart0_puts_P(RETURN_NEWLINE);
 
     for(;;)
     {
-        if(max31855_readTempDone(m));
+        while(!max31855_readTempDone(m));
+
+        // Update MAX31855
+        // PID Compute
+        // Update Oven power
+        // Process any commands
+
         cmd_processUART(m);
     }
 }

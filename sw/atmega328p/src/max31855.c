@@ -3,20 +3,32 @@
 #include "globals.h"
 
 /*** Temperature Sensor "Object" Constructor ***/
-max31855 max31855_setup(void)
+max31855 *max31855_create(void)
 {
-    // Reserve some space and make sure that it's not null
-    max31855 tempSense;
-
+    max31855 *tempSense = malloc(sizeof(max31855));
+    assert(tempSense != NULL);
+    
     // Initilaize struct
-    tempSense.extTemp = 0;
-    tempSense.intTemp = 0;
-    tempSense.status = UNKNOWN;
     // Not sure why Andy Brown makes his last temp time start at 0xFFFFD8EF but
     // it works... Maybe it's to test timer0 wrap around / guarantee causality:
     // https://github.com/andysworkshop/awreflow2/blob/master/atmega8l/TemperatureSensor.h
+    tempSense->extTemp = 0;
+    tempSense->intTemp = 0;
+    tempSense->status = UNKNOWN;
     tempSense->lastTempTime = 0xFFFFFFFF - 10000;
     tempSense->pollInterval = DEFAULT_POLL_INTERVAL;
+
+    return tempSense;
+}
+
+void max31855_destroy(max31855 *tempSense)
+{
+    assert(tempSense != NULL);
+    free(tempSense);
+}
+
+void max31855_SPIInit(void)
+{
 
     // Set GPIO direction
     CONFIG_AS_OUTPUT(MAX31855_CS);
@@ -39,16 +51,14 @@ max31855 max31855_setup(void)
 
     // Super speed 2x SPI clock powerup!
     SPSR |= (1 << SPI2X);
-
-    return tempSense;
 }
 
-/*** Read and Update Temperature Sensor Function ***/
-uint8_t max31855_readTempDone(max31855 *tempSense)
+/*** Read and Update Temperature Sensor ***/
+uint8_t max31855_readTemp(max31855 *tempSense)
 {
     if(msTimer_hasTimedOut(tempSense->lastTempTime, tempSense->pollInterval))
     {
-        uint8_t i;              // Loop index
+        uint8_t i;              // SPI loop index
         uint32_t rawBits = 0;   // Raw SPI bus bits
 
         // Bring ~CS low
