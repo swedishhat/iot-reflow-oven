@@ -54,7 +54,7 @@ void max31855_SPIInit(void)
 }
 
 /*** Read and Update Temperature Sensor ***/
-uint8_t max31855_readTemp(max31855 *tempSense)
+uint8_t max31855_update(max31855 *tempSense)
 {
     if(msTimer_hasTimedOut(tempSense->lastTempTime, tempSense->pollInterval))
     {
@@ -148,21 +148,17 @@ const char *max31855_statusString(uint8_t status)
 }
 
 /*** Temperature Sensor Printing Function ***/
-void max31855_print(max31855 *tempSense)
+void max31855_print(max31855 *tempSense, UARTCommand uc)
 {
-    // int16_t max = 65535, + '\0'
-    //char ibuffer[6] = {0};
+    // Print out ASCII representations of params to UART
     char buffer[6] = {0};
-
-    uart0_puts("Status: ");
-    uart0_puts(max31855_statusString(tempSense->status));
-    uart0_puts("\r\n");
-
-    uart0_puts("External Temp: ");
-    uart0_puts(itoa(tempSense->extTemp, buffer, 10));
-    uart0_puts("\r\n");
-
-    uart0_puts("Internal Temp: ");
-    uart0_puts(itoa(tempSense->intTemp, buffer, 10));
-    uart0_puts("\r\n");
+    
+    if(uc == GET_MAX_STATUS)
+        uart0_puts(max31855_statusString(tempSense->status));
+    if(uc == GET_RJ_TEMP)
+        uart0_puts(itoa(tempSense->intTemp, buffer, 10));
+    if(uc == GET_TC_TEMP)
+        uart0_puts(itoa(tempSense->extTemp, buffer, 10));
+    
+    uart0_puts_P(RETURN_NEWLINE);
 }

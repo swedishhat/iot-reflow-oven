@@ -1,0 +1,32 @@
+AVR has profile built in
+
+ESP <-> AVR UART Command Set:
+	(void)	START_OVEN		(int aggressiveness)
+	(void)	STOP_OVEN		(void)
+
+	(int)	GET_MAX_TC		(void)
+	(int)	GET_MAX_RJ		(void)
+	(int)	GET_MAX_STATUS	(void)
+
+	(int, int, int) GET_PID_0 (void)
+	(int, int, int) GET_PID_1 (void)
+	(void) SET_PID_0 (int, int, int)
+	(void) SET_PID_1 (int, int, int)
+
+	(void) GET_REFLOW_PRO (int, ...)
+	(int, ...) SET_REFLOW_PRO
+
+	(void) SET_OVEN_POWER (int)
+
+Reflow Message Format:
+->	"grp"
+<-	"8"	
+<-	"0:25:0"
+<-	"1:100:0"
+<-	"2:235:0"
+...
+<-	"6:25:0"
+<-	"7:25:"
+
+TP
+TS_max

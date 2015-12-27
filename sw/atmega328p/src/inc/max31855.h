@@ -46,13 +46,15 @@ typedef struct max31855
 
 
 /*** Temperature Sensor "Object" Constructor ***/
-max31855 *max31855_setup(void);
+max31855 *max31855_create(void);
+
+void max31855_destroy(max31855 *tempSense);
 
 /*** Temperature Sensor Printing Function ***/
 void max31855_print(max31855 *tempSense);
 
 /*** Read and Update Temperature Sensor Function ***/
-uint8_t max31855_readTempDone(max31855 *tempSense);
+uint8_t max31855_update(max31855 *tempSense);
 
 /*** Status Message Helper Function ***/
 const char *max31855_statusString(uint8_t status);

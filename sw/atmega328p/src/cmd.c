@@ -51,7 +51,7 @@ static int16_t cmd_parseAssignment (char input[CMD_LENGTH])
     return atoi(cmdValue);
 }
 
-static Command cmd_processCommand(void)
+static CtrlCmd cmd_processCommand(void)
 {
     // Temp array to work with
     char tmpData[8] = {0};
@@ -87,7 +87,7 @@ static Command cmd_processCommand(void)
     
     // Definitely a lot more CtrlCmd operations but I want to wait until
     // static implemetation works (well enough)
-    return cc
+    return cc;
 }
 
 void cmd_printValue (char *id, int value, uint8_t printID)

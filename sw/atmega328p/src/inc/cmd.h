@@ -9,14 +9,14 @@ typedef enum
     GET_RJ_TEMP,    // grj
     GET_MAX_STATUS, // gst
 
-    GET_GAIN_P,     // ggp
-    GET_GAIN_I,     // ggi
-    GET_GAIN_D,     // ggd
+    //GET_GAIN_P,     // ggp
+    //GET_GAIN_I,     // ggi
+    //GET_GAIN_D,     // ggd
 
     SET_OVEN_POWER, // sop=###
-    SET_GAIN_P,     // sgp=###
-    SET_GAIN_I,     // sgi=###
-    SET_GAIN_D      // sgd=###
+    //SET_GAIN_P,     // sgp=###
+    //SET_GAIN_I,     // sgi=###
+    //SET_GAIN_D      // sgd=###
 } UARTCommand;
 
 typedef struct CtrlCmd
